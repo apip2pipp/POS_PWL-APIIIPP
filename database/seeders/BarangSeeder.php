@@ -20,6 +20,8 @@ class BarangSeeder extends Seeder
                 'barang_nama' => 'PORSCHE',
                 'harga_beli' => 10000000,
                 'harga_jual' => 15000000,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 'kategori_id' => 1,
@@ -27,6 +29,8 @@ class BarangSeeder extends Seeder
                 'barang_nama' => 'AVANZA',
                 'harga_beli' => 7000000,
                 'harga_jual' => 1000000,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
 
                 
@@ -37,6 +41,8 @@ class BarangSeeder extends Seeder
                 'barang_nama' => 'SOFT CASE',
                 'harga_beli' => 10000,
                 'harga_jual' => 15000,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 
@@ -45,6 +51,8 @@ class BarangSeeder extends Seeder
                 'barang_nama' => 'HARD CASE',
                 'harga_beli' => 60000,
                 'harga_jual' => 65000,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 //KATEGORI 3 >> MIN (MINUMAN)
@@ -53,6 +61,8 @@ class BarangSeeder extends Seeder
                 'barang_nama' => 'BUTTERSCHOT COFFE',
                 'harga_beli' => 10000,
                 'harga_jual' => 24000,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 
@@ -61,6 +71,8 @@ class BarangSeeder extends Seeder
                 'barang_nama' => 'MATCHA LATTE',
                 'harga_beli' => 10000,
                 'harga_jual' => 17000,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 //KATEGORI 4 >> LAP (LAPTOP)
@@ -69,6 +81,8 @@ class BarangSeeder extends Seeder
                 'barang_nama' => 'LENOVO IDEAPED GEMING',
                 'harga_beli' => 10000000,
                 'harga_jual' => 12000000,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 
@@ -77,6 +91,8 @@ class BarangSeeder extends Seeder
                 'barang_nama' => 'ASUS TUF',
                 'harga_beli' => 12000000,
                 'harga_jual' => 14000000,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 //KATEGORI 5 >> HAP (HANDPHOE)
@@ -85,6 +101,8 @@ class BarangSeeder extends Seeder
                 'barang_nama' => 'OPPO F9',
                 'harga_beli' => 1000000,
                 'harga_jual' => 1500000,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 
@@ -93,6 +111,8 @@ class BarangSeeder extends Seeder
                 'barang_nama' => 'IPHONE 13 PRO MAX',
                 'harga_beli' => 8000000,
                 'harga_jual' => 9500000,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             
         ];
