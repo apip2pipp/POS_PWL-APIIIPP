@@ -15,28 +15,28 @@ class KategoriSeeder extends Seeder
         $data = [
             [
                 'kategori_id' => 1,
-                'kategori_kode' => 'OPP',
-                'kategori_nama' => 'OPPO',
+                'kategori_kode' => 'MBL',
+                'kategori_nama' => 'MOBIL',
             ],
             [
                 'kategori_id' => 2,
-                'kategori_kode' => 'VIO',
-                'kategori_nama' => 'VIVO',
+                'kategori_kode' => 'CSI',
+                'kategori_nama' => 'CASING',
             ],
             [
                 'kategori_id' => 3,
-                'kategori_kode' => 'SMS',
-                'kategori_nama' => 'SAMSUNG',
+                'kategori_kode' => 'MIN',
+                'kategori_nama' => 'MINUMAN',
             ],
             [
                 'kategori_id' => 4,
-                'kategori_kode' => 'APL',
-                'kategori_nama' => 'APPLE',
+                'kategori_kode' => 'LAP',
+                'kategori_nama' => 'LAPTOP',
             ],
             [
                 'kategori_id' => 5,
-                'kategori_kode' => 'HWI',
-                'kategori_nama' => 'HUWAWEI',
+                'kategori_kode' => 'HAP',
+                'kategori_nama' => 'HANDPHONE',
             ],
            
         ];
