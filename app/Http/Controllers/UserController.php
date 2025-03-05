@@ -16,12 +16,9 @@ class UserController extends Controller
             'name' => 'Pelanggan',
             'password' => Hash::make('12345'),
             'level_id' => 18
-        
-       
-
-        
             // 'name' => 'Pelanggan Pertama'
         ];
+        UserModel::created($data);
         // UserModel::insert($data); // tambahkan data ke table m_user
         // UserModel::where('username', 'customer-1') -> update($data); // update data user
         //  coba akses model UserModel
