@@ -12,10 +12,11 @@ class UserController extends Controller
     {
         // // tambah data user dengan Eluquenr Model
         $data = [
-            'username' => 'customer-1',
-            'name' => 'Pelanggan',
+            'level_id' => 2,
+            'username' => 'manager_dua',
+            'name' => 'Manager 2',
             'password' => Hash::make('12345'),
-            'level_id' => 18
+            
             // 'name' => 'Pelanggan Pertama'
         ];
         UserModel::created($data);
