@@ -19,7 +19,7 @@ class UserController extends Controller
             
             // 'name' => 'Pelanggan Pertama'
         ];
-        UserModel::created($data);
+        UserModel::create($data);
         // UserModel::insert($data); // tambahkan data ke table m_user
         // UserModel::where('username', 'customer-1') -> update($data); // update data user
         //  coba akses model UserModel
