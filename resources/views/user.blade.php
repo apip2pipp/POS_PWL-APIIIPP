@@ -16,7 +16,7 @@
         <tr>
             <td>{{$d->user_id}}</td>
             <td>{{$d->username}}</td>
-            <td>{{$d->nama}}</td>
+            <td>{{$d->name}}</td>
             <td>{{$d->level_id}}</td>
         </tr>
         @endforeach
