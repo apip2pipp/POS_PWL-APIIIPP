@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 <head>
     <title>Data user</title>
@@ -14,10 +13,10 @@
         </tr>
         {{-- @foreach($data as $d) --}}
         <tr>
-            <td>{{$d->user_id}}</td>
-            <td>{{$d->username}}</td>
-            <td>{{$d->name}}</td>
-            <td>{{$d->level_id}}</td>
+            <td>{{$data->user_id}}</td>
+            <td>{{$data->username}}</td>
+            <td>{{$data->name}}</td>
+            <td>{{$data->level_id}}</td>
         </tr>
         {{-- @endforeach --}}
     </table>
