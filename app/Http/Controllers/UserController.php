@@ -23,7 +23,9 @@ class UserController extends Controller
         // UserModel::insert($data); // tambahkan data ke table m_user
         // UserModel::where('username', 'customer-1') -> update($data); // update data user
         //  coba akses model UserModel
-        $user = UserModel::find(1); // ambil semua data dari tabel m_user
+        // $user = UserModel::find(1); // ambil semua data dari tabel m_user
+        
+        $user = UserModel::where('level_id', 1)->first();
         return view('user', ['data' => $user]);
     }
 }
