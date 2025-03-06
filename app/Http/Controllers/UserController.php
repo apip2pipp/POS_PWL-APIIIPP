@@ -55,10 +55,61 @@ class UserController extends Controller
         // return view('user',['data'=>$user]);
 
         //PRAKTIKUM 2.3 JOBSHEET 4 STEP 1
-        $user = UserModel::where('level_id',2)->count();
+        // $user = UserModel::where('level_id',2)->count();
         // dd($user);
-        return view('user',['data'=>$user]);
+        // return view('user',['data'=>$user]);
 
-    
+        //PRAKTIKUM 2.4 JOBSHEET 4 STEP 3
+        // $user = UserModel::firstOrCreate(
+        // [
+        //         'username' => 'manager',
+        //         'name' => 'Manager',
+        // ],
+        // );
+        // return view('user',['data'=>$user]);
+        
+        //PRAKTIKUM 2.4 JOBSHEET 4 STEP 5
+        // $user = UserModel::firstOrCreate(
+        // [
+        //         'username' => 'manager22',
+        //         'name' => 'Manager dua duaa',
+        //         'password' => Hash::make('12345'),
+        //         'level_id' => 2,
+        // ],
+        // );
+        // return view('user',['data'=>$user]);
+
+         //PRAKTIKUM 2.4 JOBSHEET 4 STEP 7
+        // $user = UserModel::firstOrNew(
+        // [
+        //         'username' => 'manager33',
+        //         'name' => 'Manager ',
+                
+        // ],
+        // );
+        // return view('user',['data'=>$user]);
+        
+        //PRAKTIKUM 2.4 JOBSHEET 4 STEP 9
+        // $user = UserModel::firstOrNew(
+        // [
+        //         'username' => 'manager33',
+        //         'name' => 'Manager tigaHJ Tigahj',
+        //         'password' => Hash::make('12345'),
+        //         'level_id' => 2,
+        // ],
+        // );
+        // return view('user',['data'=>$user]);
+        
+        //PRAKTIKUM 2.4 JOBSHEET 4 STEP 11
+        // $user = UserModel::firstOrNew(
+        // [
+        //         'username' => 'manager33',
+        //         'name' => 'Manager tigaHJ Tigahj',
+        //         'password' => Hash::make('12345'),
+        //         'level_id' => 2,
+        // ],
+        // );
+        // $user->save();
+        // return view('user',['data'=>$user]);
     }
 }
