@@ -13,9 +13,9 @@ class UserController extends Controller
         // // tambah data user dengan Eluquenr Model
         $data = [
             'level_id' => 2,
-            'username' => 'manager_dua',
-            'name' => 'Manager 2',
-            'password' => Hash::make('12345'),
+            'username' => 'manager_empat',
+            'name' => 'Manager 3',
+            'password' => Hash::make('12345')
             
             // 'name' => 'Pelanggan Pertama'
         ];
