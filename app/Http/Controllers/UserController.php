@@ -42,14 +42,23 @@ class UserController extends Controller
         // $user = UserModel::findOr(1,['username','name'],function(){
         //     abort(404);
         // });
-
         // return view ('user',['data'=>$user]);
         
         //PRAKTIKUM 2.1 JOBSHEET 4 STEP 11
-        $user = UserModel::findOr(2,['username','name'],function(){
-            abort(404);
-        });
+        // $user = UserModel::findOr(2,['username','name'],function(){
+        //     abort(404);
+        // });
+        // return view ('user',['data'=>$user]);
+        
+        //PRAKTIKUM 2.2 JOBSHEET 4 STEP 1
+        // $user = UserModel::findOrFail(1);
+        // return view('user',['data'=>$user]);
 
-        return view ('user',['data'=>$user]);
+        //PRAKTIKUM 2.3 JOBSHEET 4 STEP 1
+        $user = UserModel::where('level_id',2)->count();
+        // dd($user);
+        return view('user',['data'=>$user]);
+
+    
     }
 }
