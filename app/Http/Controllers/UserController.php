@@ -139,25 +139,44 @@ class UserController extends Controller
         // dd($user->isDirty());
         
         //PRAKTIKUM 2.5 JOBSHEET 4 STEP  4
-        $user = UserModel::create([
-            'username' => 'manager11',
-            'name' => 'Manager11', 
-            'password' => Hash::make('12345'),
-            'level_id' => 2,
-        ]);
+        // $user = UserModel::create([
+        //     'username' => 'manager13',
+        //     'name' => 'Manager11', 
+        //     'password' => Hash::make('12345'),
+        //     'level_id' => 2,
+        // ]);
 
-        $user->username = 'manager12';
+        // $user->username = 'manager13';
 
-        $user->save();
+        // $user->save();
 
-        $user->wasChanged(); // true
-        $user->wasChanged('username'); // true 
-        $user->wasChanged(['username', 'level_id']); // true
-        $user->wasChanged('name'); // false
-        $user->wasChanged(['name', 'username']); // true
-        dd($user->wasChanged(['name','username']));
+        // $user->wasChanged(); // true
+        // $user->wasChanged('username'); // true 
+        // $user->wasChanged(['username', 'level_id']); // true
+        // $user->wasChanged('name'); // false
+        // $user->wasChanged(['name', 'username']); // true
+        // dd($user->wasChanged(['name','username']));
 
-
-
+        //PRAKTIKUM 2.6 JOBSHEET 4 STEP  4
+        $user = UserModel::all();
+        return view('user',['data'=>$user]);
+    
     }
+
+    
+        //PRAKTIKUM 2.6 JOBSHEET 4 STEP  5
+        public function tambah(){
+            return view('user_tambah');
+        }
+        
+        //PRAKTIKUM 2.6 JOBSHEET 4 STEP  10
+        public function tambah_simpan(Request $request){
+            UserModel::create([
+                'username'=> $request->username,
+                'name'=> $request->name,
+                'password'=> Hash::make($request->password),
+                'level_id'=> $request->level_id
+            ]);
+            return redirect('/user');
+        }
 }
