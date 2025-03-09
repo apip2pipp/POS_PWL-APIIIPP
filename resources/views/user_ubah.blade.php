@@ -1,4 +1,7 @@
 {{-- practicum 2.6 jobsheet4 step 13 --}}
+<body>
+    
+
 <h1>Form Ubah Data User</h1>
 <a href="{{ route('/user') }}">Kembali</a>
 <br>
@@ -9,10 +12,11 @@
 <input type="text" name="username" value="{{ $data->username }}">
 <br>
 <label>Nama</label>
-<input type="text" name="nama" value="{{ $data->nama }}">
+<input type="text" name="name" value="{{ $data->name }}">
 <br>
 <label>Level ID</label>
 <input type="number" name="level_id" value="{{ $data->level_id }}">
 <br>
 <input type="submit" name="btn" class="btn btn-success" value="Ubah">
 </form>
+</body>

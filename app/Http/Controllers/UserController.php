@@ -185,4 +185,28 @@ class UserController extends Controller
             $user=UserModel::find($id);
             return view('user_ubah',['data'=>$user]);
         }
+        
+        //PRAKTIKUM 2.6 JOBSHEET 4 STEP  16
+        public function ubah_simpan($id, Request $request){
+            $user = UserModel::find($id);
+            $user->username = $request->username;
+            $user->name = $request->name;
+            $user->level_id = $request->level_id;
+            $user->save();
+    
+            return redirect('/user');
+        }
+
+         // Menghapus user
+    // public function hapus($id)
+    // {
+    //     UserModel::destroy($id);
+    //     return redirect('/user');
+    // }
+    public function hapus($id)
+    {
+        $user = UserModel::find($id);
+        $user->delete();
+        return redirect('/user');
+    }
 }
