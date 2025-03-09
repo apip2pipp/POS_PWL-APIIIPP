@@ -158,9 +158,12 @@ class UserController extends Controller
         // dd($user->wasChanged(['name','username']));
 
         //PRAKTIKUM 2.6 JOBSHEET 4 STEP  4
-        $user = UserModel::all();
-        return view('user',['data'=>$user]);
+        // $user = UserModel::all();
+        // return view('user',['data'=>$user]);
     
+        //praktikum2.7 jobsheet 4 step2
+        $user = UserModel::with('level')->get();
+        return view('user',['data'=>$user]);
     }
 
     
@@ -186,7 +189,7 @@ class UserController extends Controller
             return view('user_ubah',['data'=>$user]);
         }
         
-        //PRAKTIKUM 2.6 JOBSHEET 4 STEP  16
+        
         public function ubah_simpan($id, Request $request){
             $user = UserModel::find($id);
             $user->username = $request->username;
@@ -203,10 +206,14 @@ class UserController extends Controller
     //     UserModel::destroy($id);
     //     return redirect('/user');
     // }
+
+    //PRAKTIKUM 2.6 JOBSHEET 4 STEP  16
     public function hapus($id)
     {
         $user = UserModel::find($id);
         $user->delete();
         return redirect('/user');
     }
+
+    
 }
