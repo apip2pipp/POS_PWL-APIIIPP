@@ -179,4 +179,10 @@ class UserController extends Controller
             ]);
             return redirect('/user');
         }
+
+        //PRAKTIKUM 2.6 JOBSHEET 4 STEP  12
+        public function ubah($id){
+            $user=UserModel::find($id);
+            return view('user_ubah',['data'=>$user]);
+        }
 }
