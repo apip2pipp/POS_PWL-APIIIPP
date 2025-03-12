@@ -7,7 +7,7 @@
         <div class="card-tools"></div>
     </div>
     <div class="card-body">
-        <p>Selamat cokk datang semua, ini adalah halaman utama dari aplikasi ini</p>
+        <p>Selamat datang semua, ini adalah halaman utama dari aplikasi ini</p>
     </div>
 </div>
 @endsection
