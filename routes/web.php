@@ -8,7 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\PenjualanDetailController;
-
+use App\Http\Controllers\WelcomeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,6 +27,9 @@ Route::get('/user',[UserController::class,'index'])->name('/user');
 Route::post('/user/tambah_simpan',[UserController::class,'tambah_simpan'])->name('/user/tambah_simpan');
 Route::put('/user/ubah_simpan/{id}',[UserController::class,'ubah_simpan'])->name('/user/ubah_simpan');
 
+
+//jobsheet 5
+Route::get('/',[WelcomeController::class,'index']);
 
 // Route :: get ('/public/user', [UserController::class, 'index' ]);
 // Route :: get ('/user', [UserController::class, 'index' ]);
