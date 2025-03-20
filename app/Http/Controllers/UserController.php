@@ -197,7 +197,7 @@ public function list(Request $request){
                 'level_id' => 'required|integer',
                 'username' => 'required|string|min:3|unique:m_user,username',
                 'nama'     => 'required|string|max:100',
-                'password' => 'required|min:9'
+                'password' => 'required|min:4'
             ];
     
             // use Illuminate\Support\Facades\Validator;
