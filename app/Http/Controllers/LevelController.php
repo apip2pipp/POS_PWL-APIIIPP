@@ -2,24 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LevelModel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 class LevelController extends Controller
 {
     public function index()
     {
-        $breadcrumb = (object) [
-            'title' => 'User',
-            'list' => ['Home', 'User']
-        ];
-        $page = (object) [
-            'title' => 'Daftar user yang terdaftar dalam sistem'
-        ];
-        $activeMenu = 'user';
-
-        $level = LevelModel::all();
-        return view('level.index', ['breadcrumb' => $breadcrumb, 'page' => $page,'level' => $level, 'activeMenu' => $activeMenu]);
-
+        return view('level.index', [
+            'breadcrumb' => (object) [
+                'title' => 'Daftar level pengguna',
+                'list' => ['Home', 'Level']
+            ],
+            'level' => LevelModel::all(),
+            'page' => (object) [
+                'title' => 'Daftar level pengguna yang terdaftar dalam sistem'
+            ],
+            'activeMenu' => 'level'
+        ]);
     }
+
 }
