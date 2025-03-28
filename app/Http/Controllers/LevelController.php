@@ -175,9 +175,6 @@ class LevelController extends Controller
         ], Response::HTTP_OK);
     }
 
-    
-   
-
     public function editAjax(string $id)
     {
         $level = LevelModel::find($id);
@@ -186,8 +183,6 @@ class LevelController extends Controller
             'level' => $level
         ]);
     }
-
-   
 
     public function updateAjax(Request $req, string $id)
     {
