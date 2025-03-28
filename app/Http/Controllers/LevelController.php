@@ -27,7 +27,7 @@ class LevelController extends Controller
 
     public function list(Request $req) 
     {
-        $level = LevelModel::select( 'level_id', 'level_kode', 'level_name');
+        $level = LevelModel::select( 'level_id', 'level_kode', 'level_nama');
 
         if ($req->level_id) {
             $level->where('level_id', $req->level_id);
@@ -63,4 +63,10 @@ class LevelController extends Controller
             'activeMenu' => 'level'
         ]);
     }
+
+    public function createAjax()
+    {
+        return view('level.create-ajax');
+    }
+
 }
