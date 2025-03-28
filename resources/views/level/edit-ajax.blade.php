@@ -13,7 +13,7 @@
                     <h5><i class="icon fas fa-ban"></i> Kesalahan !!!</h5>
                     Data yang anda cari tidak ditemukan
                 </div>
-                <a href="{{ route('user.index') }}" class="btn btn-warning">Kembali</a>
+                <a href="{{ route('level.index') }}" class="btn btn-warning">Kembali</a>
             </div>
         </div>
     </div>
