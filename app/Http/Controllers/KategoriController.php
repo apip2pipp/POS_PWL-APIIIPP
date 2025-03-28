@@ -16,16 +16,55 @@ class KategoriController extends Controller
     {
         return view('kategori.index', [
             'breadcrumb' => (object) [
-                'title' => 'Daftar level pengguna',
-                'list' => ['Home', 'Level']
+                'title' => 'Daftar kategori barang',
+                'list' => ['Home', 'Kategori']
             ],
-
-            'level' => KategoriModel::all(),
+            'kategori' => KategoriModel::all(),
             'page' => (object) [
-                'title' => 'Daftar level pengguna yang terdaftar dalam sistem'
+                'title' => 'Daftar kategori barang yang terdaftar dalam sistem'
             ],
-            
-            'activeMenu' => 'level'
+            'activeMenu' => 'kategori'
         ]);
     }
+
+
+    public function list(Request $req) 
+    {
+        $kategori = KategoriModel::select( 'kategori_id', 'kategori_kode', 'kategori_nama');
+
+        if ($req->kategori_id) {
+            $kategori->where('kategori_id', $req->kategori_id);
+        }
+
+        return DataTables::of($kategori)
+            ->addIndexColumn()
+            ->addColumn('aksi', function ($kategori) {
+                $detailUrl = route('kategori.show', ['id' => $kategori->kategori_id]);
+                $editUrl = route('kategori.edit-ajax', ['id' => $kategori->kategori_id]);
+                $deleteUrl = route('kategori.delete-ajax', ['id' => $kategori->kategori_id]);
+                
+                return <<<HTML
+                <button onclick="modalAction('{$detailUrl}')" class="btn btn-info btn-sm">Detail</button>
+                <button onclick="modalAction('{$editUrl}')" class="btn btn-warning btn-sm">Edit</button>
+                <button onclick="modalAction('{$deleteUrl}')" class="btn btn-danger btn-sm">Hapus</button>
+                HTML;
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
+    }
+
+    // public function create()
+    // {
+    //     return view('kategori.create', [
+    //         'breadcrumb' => (object) [
+    //             'title' => 'Tambah Kategori Barang',
+    //             'list' => ['Home', 'Kategori', 'Tambah']
+    //         ],
+    //         'page' => (object) [
+    //             'title' => 'Tambah kategori barang baru'
+    //         ],
+    //         'kategori' => KategoriModel::all(),
+    //         'activeMenu' => 'kategori'
+    //     ]);
+    // }
 }
