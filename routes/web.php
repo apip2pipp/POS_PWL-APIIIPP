@@ -77,17 +77,24 @@ Route::delete('/{id}/delete-ajax', 'deleteAjax')->name('level.delete-ajax');
 });
 
 // Kategori
-// Route::group(['prefix' => 'kategori'], function () {
-//     Route::get('/', [KategoriController::class, 'index']);
-//     Route::post('/list', [KategoriController::class, 'list'])
-//         ->name('kategori.list');
-//     Route::get('/create', [KategoriController::class, 'create']);
-//     Route::post('/', [KategoriController::class, 'store']);
-//     Route::get('/{id}', [KategoriController::class, 'show']);
-//     Route::get('/{id}/edit', [KategoriController::class, 'edit']);
-//     Route::put('/{id}', [KategoriController::class, 'update']);
-//     Route::delete('/{id}', [KategoriController::class, 'destroy']);
-// });
+Route::prefix( 'kategori')
+->controller(KategoriController::class)
+->group(function () {
+Route::get('/', 'index')->name('kategori.index');
+Route::post('/list',  'list')->name('kategori.list');
+Route::get('/create', 'create')->name('kategori.create');
+Route::get('/create-ajax', 'createAjax')->name('kategori.create-ajax');
+Route::post('/', 'store')->name('kategori.store');
+Route::post('/store-ajax', 'storeAjax')->name('kategori.store-ajax');
+Route::get('/{id}', 'show')->name('kategori.show');
+Route::get('/{id}/edit', 'edit')->name('kategori.edit');
+Route::get('/{id}/edit-ajax', 'editAjax')->name('kategori.edit-ajax');
+Route::put('/{id}', 'update')->name('kategori.update');
+Route::put('/{id}/update-ajax', 'updateAjax')->name('kategori.update-ajax');
+Route::delete('/{id}', 'destroy')->name('kategori.destroy');
+Route::get('/{id}/delete-ajax', 'confirmDeleteAjax')->name('kategori.confirm-delete-ajax');
+Route::delete('/{id}/delete-ajax', 'deleteAjax')->name('kategori.delete-ajax');
+});
 
 // Barang
 // Route::group(['prefix' => 'barang'], function () {
