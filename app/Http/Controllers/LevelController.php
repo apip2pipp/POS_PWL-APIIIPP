@@ -8,26 +8,27 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
+
 class LevelController extends Controller
 {
     public function index()
     {
         return view('level.index', [
             'breadcrumb' => (object) [
-                'title' => 'Daftar level pengguna',
-                'list' => ['Home', 'Level']
+            'title' => 'Daftar level pengguna',
+            'list' => ['Home', 'Level']
             ],
             'level' => LevelModel::all(),
             'page' => (object) [
-                'title' => 'Daftar level pengguna yang terdaftar dalam sistem'
+            'title' => 'Daftar level pengguna yang terdaftar dalam sistem'
             ],
             'activeMenu' => 'level'
         ]);
     }
 
-    public function list(Request $req) 
+    public function list(Request $req)
     {
-        $level = LevelModel::select( 'level_id', 'level_kode', 'level_nama');
+        $level = LevelModel::select('level_id', 'level_kode', 'level_nama');
 
         if ($req->level_id) {
             $level->where('level_id', $req->level_id);
@@ -39,7 +40,7 @@ class LevelController extends Controller
                 $detailUrl = route('level.show', ['id' => $level->level_id]);
                 $editUrl = route('level.edit-ajax', ['id' => $level->level_id]);
                 $deleteAjax = route('level.delete-ajax', ['id' => $level->level_id]);
-                
+
                 return <<<HTML
                 <button onclick="modalAction('{$detailUrl}')" class="btn btn-info btn-sm">Detail</button>
                 <button onclick="modalAction('{$editUrl}')" class="btn btn-warning btn-sm">Edit</button>
@@ -155,7 +156,7 @@ class LevelController extends Controller
         if (!$req->ajax() && !$req->wantsJson()) {
             redirect('/');
         }
-        
+
         $validator = Validator::make($req->all(), [
             'level_kode' => "required|string|min:3|unique:m_level,level_kode",
             'level_name' => 'required|string|max:100|unique:m_level,level_name'
@@ -246,5 +247,4 @@ class LevelController extends Controller
             'message' => 'Data berhasil dihapus!'
         ], Response::HTTP_OK);
     }
-
 }
