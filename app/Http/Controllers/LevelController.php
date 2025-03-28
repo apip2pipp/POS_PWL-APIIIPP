@@ -64,6 +64,71 @@ class LevelController extends Controller
         ]);
     }
 
+    public function show(string $id)
+    {
+        return view('level.show', [
+            'breadcrumb' => (object) [
+                'title' => 'Detail Level',
+                'list' => ['Home', 'Level', 'Detail']
+            ],
+            'page' => (object) [
+                'title' => 'Detail level'
+            ],
+            'level' => LevelModel::find($id),
+            'activeMenu' => 'level'
+        ]);
+    }
+
+    public function edit(string $id)
+    {
+        return view('level.edit', [
+            'breadcrumb' => (object) [
+                'title' => 'Edit level',
+                'list' => ['Home', 'Level', 'Edit']
+            ],
+            'page' => (object) [
+                'title' => 'Edit level'
+            ],
+            'level' => LevelModel::find($id),
+            'activeMenu' => 'level'
+        ]);
+    }
+
+    public function update(Request $req, string $id)
+    {
+        $req->validate([
+            'level_kode' => "required|string|min:3|unique:m_level,level_kode,$id,level_id",
+            'level_name' => 'required|string|max:100'
+        ]);
+
+        LevelModel::find($id)->update([
+            'level_kode' => $req->level_kode,
+            'level_name' => $req->level_name
+        ]);
+
+        return redirect('/level')
+            ->with('success', 'Data berhasil diubah');
+    }
+
+    public function destroy(string $id)
+    {
+        $check = LevelModel::find($id);
+
+        if (!$check) {
+            return redirect('/level')->with('error', 'Data level pengguna tidak ditemukan');
+        }
+
+        try {
+            LevelModel::destroy($id);
+
+            return redirect('/level')
+                ->with('success', 'Data level pengguna berhasil dihapus!');
+        } catch (QueryException $e) {
+            return redirect('/level')
+                ->with('error', 'Data level pengguna gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
+        }
+    }
+
     public function createAjax()
     {
         return view('level.create-ajax');
@@ -109,4 +174,82 @@ class LevelController extends Controller
             'message' => 'Data level berhasil disimpan'
         ], Response::HTTP_OK);
     }
+
+    
+   
+
+    public function editAjax(string $id)
+    {
+        $level = LevelModel::find($id);
+
+        return view('level.edit-ajax', [
+            'level' => $level
+        ]);
+    }
+
+   
+
+    public function updateAjax(Request $req, string $id)
+    {
+        if (!$req->ajax() && !$req->wantsJson()) {
+            return redirect('/');
+        }
+
+        $validator = Validator::make($req->all(), [
+            'level_kode' => "required|string|min:3|unique:m_level,level_kode,$id,level_id",
+            'level_name' => 'required|string|max:100'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validasi gagal!',
+                'msgField' => $validator->errors()
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $level = LevelModel::find($id);
+
+        if (!$level) {
+            return response()->json([
+                'message' => 'Data tidak ditemukan'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        if (!$req->filled('password')) {
+            $req->request->remove('password');
+        }
+
+        $level->update($req->all());
+        return response()->json([
+            'message' => 'Data berhasil diupdate'
+        ], Response::HTTP_OK);
+    }
+
+    public function confirmDeleteAjax(string $id)
+    {
+        $level = LevelModel::find($id);
+
+        return view('level.confirm-delete-ajax', ['level' => $level]);
+    }
+
+    public function deleteAjax(Request $req, string $id)
+    {
+        if (!$req->ajax() && !$req->wantsJson()) {
+            return redirect('/');
+        }
+
+        $level = LevelModel::find($id);
+
+        if (!$level) {
+            return response()->json([
+                'message' => 'Data tidak ditemukan'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        $level->delete();
+        return response()->json([
+            'message' => 'Data berhasil dihapus!'
+        ], Response::HTTP_OK);
+    }
+
 }
