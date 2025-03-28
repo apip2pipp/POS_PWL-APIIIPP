@@ -65,6 +65,13 @@ class LevelController extends Controller
         ]);
     }
 
+    public function createAjax()
+    {
+        
+        return view('level.create-ajax');
+        
+    }
+
     public function show(string $id)
     {
         return view('level.show', [
@@ -99,12 +106,12 @@ class LevelController extends Controller
     {
         $req->validate([
             'level_kode' => "required|string|min:3|unique:m_level,level_kode,$id,level_id",
-            'level_name' => 'required|string|max:100'
+            'level_nama' => 'required|string|max:100'
         ]);
 
         LevelModel::find($id)->update([
             'level_kode' => $req->level_kode,
-            'level_name' => $req->level_name
+            'level_nama' => $req->level_nama
         ]);
 
         return redirect('/level')
@@ -130,10 +137,7 @@ class LevelController extends Controller
         }
     }
 
-    public function createAjax()
-    {
-        return view('level.create-ajax');
-    }
+  
 
     public function store(Request $req)
     {
@@ -159,7 +163,7 @@ class LevelController extends Controller
 
         $validator = Validator::make($req->all(), [
             'level_kode' => "required|string|min:3|unique:m_level,level_kode",
-            'level_name' => 'required|string|max:100|unique:m_level,level_name'
+            'level_nama' => 'required|string|max:100|unique:m_level,level_nama'
         ]);
 
         if ($validator->fails()) {
@@ -193,7 +197,7 @@ class LevelController extends Controller
 
         $validator = Validator::make($req->all(), [
             'level_kode' => "required|string|min:3|unique:m_level,level_kode,$id,level_id",
-            'level_name' => 'required|string|max:100'
+            'level_nama' => 'required|string|max:100'
         ]);
 
         if ($validator->fails()) {
