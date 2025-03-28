@@ -84,4 +84,29 @@ class LevelController extends Controller
         return redirect('/level')
             ->with('success', 'Data level pengguna berhasil disimpan!');
     }
+
+    public function storeAjax(Request $req)
+    {
+        if (!$req->ajax() && !$req->wantsJson()) {
+            redirect('/');
+        }
+        
+        $validator = Validator::make($req->all(), [
+            'level_kode' => "required|string|min:3|unique:m_level,level_kode",
+            'level_name' => 'required|string|max:100|unique:m_level,level_name'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validasi Gagal',
+                'msgField' => $validator->errors()
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        LevelModel::create($req->all());
+
+        return response()->json([
+            'message' => 'Data level berhasil disimpan'
+        ], Response::HTTP_OK);
+    }
 }
