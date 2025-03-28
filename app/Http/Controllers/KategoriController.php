@@ -16,13 +16,15 @@ class KategoriController extends Controller
     {
         return view('kategori.index', [
             'breadcrumb' => (object) [
-            'title' => 'Daftar level pengguna',
-            'list' => ['Home', 'Level']
+                'title' => 'Daftar level pengguna',
+                'list' => ['Home', 'Level']
             ],
+
             'level' => KategoriModel::all(),
             'page' => (object) [
-            'title' => 'Daftar level pengguna yang terdaftar dalam sistem'
+                'title' => 'Daftar level pengguna yang terdaftar dalam sistem'
             ],
+            
             'activeMenu' => 'level'
         ]);
     }
