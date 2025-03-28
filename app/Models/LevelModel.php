@@ -14,6 +14,6 @@ class LevelModel extends Model
 
     protected $fillable = [
         'level_kode',
-        'level_name'
+        'level_nama'
     ];
 }
