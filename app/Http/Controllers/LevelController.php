@@ -69,4 +69,19 @@ class LevelController extends Controller
         return view('level.create-ajax');
     }
 
+    public function store(Request $req)
+    {
+        $req->validate([
+            'level_kode' => "required|string|min:3|unique:m_level,level_kode",
+            'level_nama' => 'required|string|max:100|unique:m_level,level_nama'
+        ]);
+
+        LevelModel::create([
+            'level_kode' => $req->level_kode,
+            'level_nama' => $req->level_nama
+        ]);
+
+        return redirect('/level')
+            ->with('success', 'Data level pengguna berhasil disimpan!');
+    }
 }
