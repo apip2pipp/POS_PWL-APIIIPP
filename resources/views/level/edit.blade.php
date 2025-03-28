@@ -33,7 +33,7 @@
                     <div class="form-group row">
                         <label class="col-1 control-label col-form-label">Nama Level</label>
                         <div class="col-11">
-                            <input type="text" class="form-control" id="level_name" name="level_name" value="{{ old('level_name', $level->level_name) }}" required>
+                            <input type="text" class="form-control" id="level_nama" name="level_nama" value="{{ old('level_nama', $level->level_nama) }}" required>
 
                             @error('level_id')
                                 <small class="form-text text-danger">{{ $message }}</small>
