@@ -57,41 +57,48 @@ Route::group(['prefix'=>'user'], function(){
 });
 
 // Level
-Route::group(['prefix' => 'level'], function () {
-    Route::get('/', [LevelController::class, 'index']);
-    Route::post('/list', [LevelController::class, 'list'])
-        ->name('level.list');
-    Route::get('/create', [LevelController::class, 'create']);
-    Route::post('/', [LevelController::class, 'store']);
-    Route::get('/{id}', [LevelController::class, 'show']);
-    Route::get('/{id}/edit', [LevelController::class, 'edit']);
-    Route::put('/{id}', [LevelController::class, 'update']);
-    Route::delete('/{id}', [LevelController::class, 'destroy']);
+Route::prefix('level')
+->controller(LevelController::class)
+->group(function () {
+Route::get('/', 'index')->name('level.index');
+Route::post('/list','list')->name('level.list');
+Route::get('/create','create')->name('level.create');
+Route::get('/create-ajax', 'createAjax')->name('level.create-ajax');
+Route::post('/','store')->name('level.store');
+Route::post('/store-ajax', 'storeAjax')->name('level.store-ajax');
+Route::get('/{id}', 'show')->name('level.show');
+Route::get('/{id}/edit', 'edit')->name('level.edit');
+Route::get('/{id}/edit-ajax', 'editAjax')->name('level.edit-ajax');
+Route::put('/{id}', 'update')->name('level.update');
+Route::put('/{id}/update-ajax', 'updateAjax')->name('level.update-ajax');
+Route::delete('/{id}', 'destroy')->name('level.destroy');
+Route::get('/{id}/delete-ajax', 'confirmDeleteAjax')->name('level.confirm-delete-ajax');
+Route::delete('/{id}/delete-ajax', 'deleteAjax')->name('level.delete-ajax');
 });
 
 // Kategori
-Route::group(['prefix' => 'kategori'], function () {
-    Route::get('/', [KategoriController::class, 'index']);
-    Route::post('/list', [KategoriController::class, 'list'])
-        ->name('kategori.list');
-    Route::get('/create', [KategoriController::class, 'create']);
-    Route::post('/', [KategoriController::class, 'store']);
-    Route::get('/{id}', [KategoriController::class, 'show']);
-    Route::get('/{id}/edit', [KategoriController::class, 'edit']);
-    Route::put('/{id}', [KategoriController::class, 'update']);
-    Route::delete('/{id}', [KategoriController::class, 'destroy']);
-});
+// Route::group(['prefix' => 'kategori'], function () {
+//     Route::get('/', [KategoriController::class, 'index']);
+//     Route::post('/list', [KategoriController::class, 'list'])
+//         ->name('kategori.list');
+//     Route::get('/create', [KategoriController::class, 'create']);
+//     Route::post('/', [KategoriController::class, 'store']);
+//     Route::get('/{id}', [KategoriController::class, 'show']);
+//     Route::get('/{id}/edit', [KategoriController::class, 'edit']);
+//     Route::put('/{id}', [KategoriController::class, 'update']);
+//     Route::delete('/{id}', [KategoriController::class, 'destroy']);
+// });
 
 // Barang
-Route::group(['prefix' => 'barang'], function () {
-    Route::get('/', [BarangController::class, 'index']);
-    Route::post('/list', [BarangController::class, 'list'])
-        ->name('barang.list');
-    Route::get('/create', [BarangController::class, 'create']);
-    Route::post('/', [BarangController::class, 'store']);
-    Route::get('/{id}', [BarangController::class, 'show']);
-    Route::get('/{id}/edit', [BarangController::class, 'edit']);
-    Route::put('/{id}', [BarangController::class, 'update']);
-    Route::delete('/{id}', [BarangController::class, 'destroy']);
-});
+// Route::group(['prefix' => 'barang'], function () {
+//     Route::get('/', [BarangController::class, 'index']);
+//     Route::post('/list', [BarangController::class, 'list'])
+//         ->name('barang.list');
+//     Route::get('/create', [BarangController::class, 'create']);
+//     Route::post('/', [BarangController::class, 'store']);
+//     Route::get('/{id}', [BarangController::class, 'show']);
+//     Route::get('/{id}/edit', [BarangController::class, 'edit']);
+//     Route::put('/{id}', [BarangController::class, 'update']);
+//     Route::delete('/{id}', [BarangController::class, 'destroy']);
+// });
 
