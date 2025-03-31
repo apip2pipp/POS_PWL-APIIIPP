@@ -97,15 +97,21 @@ Route::delete('/{id}/delete-ajax', 'deleteAjax')->name('kategori.delete-ajax');
 });
 
 // Barang
-// Route::group(['prefix' => 'barang'], function () {
-//     Route::get('/', [BarangController::class, 'index']);
-//     Route::post('/list', [BarangController::class, 'list'])
-//         ->name('barang.list');
-//     Route::get('/create', [BarangController::class, 'create']);
-//     Route::post('/', [BarangController::class, 'store']);
-//     Route::get('/{id}', [BarangController::class, 'show']);
-//     Route::get('/{id}/edit', [BarangController::class, 'edit']);
-//     Route::put('/{id}', [BarangController::class, 'update']);
-//     Route::delete('/{id}', [BarangController::class, 'destroy']);
-// });
-
+Route::prefix('barang')
+->controller(BarangController::class)
+->group(function () {
+Route::get('/', 'index')->name('barang.index');
+Route::post('/list',  'list')->name('barang.list');
+Route::get('/create', 'create')->name('barang.create');
+Route::get('/create-ajax', 'createAjax')->name('barang.create-ajax');
+Route::post('/', 'store')->name('barang.store');
+Route::post('/store-ajax', 'storeAjax')->name('barang.store-ajax');
+Route::get('/{id}', 'show')->name('barang.show');
+Route::get('/{id}/edit', 'edit')->name('barang.edit');
+Route::get('/{id}/edit-ajax', 'editAjax')->name('barang.edit-ajax');
+Route::put('/{id}', 'update')->name('barang.update');
+Route::put('/{id}/update-ajax', 'updateAjax')->name('barang.update-ajax');
+Route::delete('/{id}', 'destroy')->name('barang.destroy');
+Route::get('/{id}/delete-ajax', 'confirmDeleteAjax')->name('barang.confirm-delete-ajax');
+Route::delete('/{id}/delete-ajax', 'deleteAjax')->name('barang.delete-ajax');
+});
