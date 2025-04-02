@@ -68,4 +68,20 @@ class BarangController extends Controller
     ]);
 
     }
+
+    public function store(Request $req)
+    {
+        $req->validate([
+            'barang_kode' => "required|string|min:3|unique:m_barang,barang_kode",
+            'barang_nama' => 'required|string|max:100|unique:m_kategori,barang_nama'
+        ]);
+
+        BarangModel::create([
+            'kategori_kode' => $req->kategori_kode,
+            'kategori_nama' => $req->kategori_nama
+        ]);
+
+        return redirect('/kategori')
+            ->with('success', 'Data kategori barang berhasil disimpan!');
+    }
 }
