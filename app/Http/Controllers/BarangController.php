@@ -73,15 +73,15 @@ class BarangController extends Controller
     {
         $req->validate([
             'barang_kode' => "required|string|min:3|unique:m_barang,barang_kode",
-            'barang_nama' => 'required|string|max:100|unique:m_kategori,barang_nama'
+            'barang_nama' => 'required|string|max:100|unique:m_barang,barang_nama'
         ]);
 
         BarangModel::create([
-            'kategori_kode' => $req->kategori_kode,
-            'kategori_nama' => $req->kategori_nama
+            'barang_kode' => $req->barang_kode,
+            'barang_nama' => $req->barang_nama
         ]);
 
-        return redirect('/kategori')
-            ->with('success', 'Data kategori barang berhasil disimpan!');
+        return redirect('/barang')
+            ->with('success', 'Data  barang berhasil disimpan!');
     }
 }
