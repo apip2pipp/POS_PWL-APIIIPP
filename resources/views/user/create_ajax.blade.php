@@ -4,18 +4,19 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Tambah Data User</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label>Level Pengguna</label>
                     <select name="level_id" id="level_id" class="form-control" required>
                         <option value="">- Pilih Level -</option>
-                        @foreach($level as $l)
+                        @foreach ($level as $l)
                             <option value="{{ $l->level_id }}">{{ $l->level_nama }}</option>
                         @endforeach
                     </select>
-                    <small id="error-level-id" class="error-text form-text text-danger"></small>
+                    <small id="error-level_id" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label>Username</label>
@@ -29,7 +30,8 @@
                 </div>
                 <div class="form-group">
                     <label>Password</label>
-                    <input value="" type="password" name="password" id="password" class="form-control" required>
+                    <input value="" type="password" name="password" id="password" class="form-control"
+                        required>
                     <small id="error-password" class="error-text form-text text-danger"></small>
                 </div>
             </div>
@@ -40,15 +42,29 @@
         </div>
     </div>
 </form>
-
 <script>
     $(document).ready(function() {
         $("#form-tambah").validate({
             rules: {
-                level_id: { required: true, number: true },
-                username: { required: true, minlength: 3, maxlength: 20 },
-                nama: { required: true, minlength: 3, maxlength: 100 },
-                password: { required: true, minlength: 6, maxlength: 20 }
+                level_id: {
+                    required: true,
+                    number: true
+                },
+                username: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20
+                },
+                nama: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 100
+                },
+                password: {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 20
+                }
             },
             submitHandler: function(form) {
                 $.ajax({
@@ -56,7 +72,7 @@
                     type: form.method,
                     data: $(form).serialize(),
                     success: function(response) {
-                        if(response.status) {
+                        if (response.status) {
                             $('#myModal').modal('hide');
                             Swal.fire({
                                 icon: 'success',

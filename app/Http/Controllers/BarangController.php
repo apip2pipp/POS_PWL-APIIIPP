@@ -31,8 +31,8 @@ class BarangController extends Controller
     {
         $barang = BarangModel::select('kategori_id', 'barang_id', 'barang_kode','barang_nama', 'harga_beli', 'harga_jual');
 
-        if ($req->barang_id) {
-            $barang->where('barang_id', $req->barang_id);
+        if ($req->barang_kode) {
+            $barang->where('barang_kode', $req->barang_kode);
         }
 
         return DataTables::of($barang)
@@ -41,7 +41,7 @@ class BarangController extends Controller
                 $detailUrl = route('barang.show', ['id' => $barang->barang_id]);
                 $editUrl = route('barang.edit-ajax', ['id' => $barang->barang_id]);
                 $deleteUrl = route('barang.delete-ajax', ['id' => $barang->barang_id]);
-                
+                $detailUrl = route('barang.show_ajax', ['id' => $barang->barang_id]);
                 return <<<HTML
                 <button onclick="modalAction('{$detailUrl}')" class="btn btn-info btn-sm">Detail</button>
                 <button onclick="modalAction('{$editUrl}')" class="btn btn-warning btn-sm">Edit</button>
@@ -75,8 +75,8 @@ class BarangController extends Controller
             'kategori_id' => 'required|integer',
             'barang_kode' => 'required|string|min:3|unique:m_barang,barang_kode',
             'barang_nama' => 'required|string|max:100|unique:m_barang,barang_nama',
-            'harga_beli' => 'required|integer',
-            'harga_jual' => 'required|integer',
+            'harga_beli' => '|integer',
+            'harga_jual' => '|integer',
         ]);
 
         BarangModel::create([
@@ -229,6 +229,12 @@ class BarangController extends Controller
             'barang' => BarangModel::find($id),
             'activeMenu' => 'barang'
         ]);
+    }
+
+    public function show_ajax(string $id)
+    {
+        $barang = BarangModel::with('kategori')->find($id); 
+        return view('barang.show_ajax', ['barang' => $barang]);
     }
 
     public function destroy(string $id)

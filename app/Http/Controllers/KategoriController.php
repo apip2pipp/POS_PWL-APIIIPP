@@ -42,7 +42,7 @@ class KategoriController extends Controller
                 $detailUrl = route('kategori.show', ['id' => $kategori->kategori_id]);
                 $editUrl = route('kategori.edit-ajax', ['id' => $kategori->kategori_id]);
                 $deleteUrl = route('kategori.delete-ajax', ['id' => $kategori->kategori_id]);
-                
+                $detailUrl = route('kategori.show_ajax', ['id' => $kategori->kategori_id]);
                 return <<<HTML
                 <button onclick="modalAction('{$detailUrl}')" class="btn btn-info btn-sm">Detail</button>
                 <button onclick="modalAction('{$editUrl}')" class="btn btn-warning btn-sm">Edit</button>
@@ -97,6 +97,14 @@ class KategoriController extends Controller
             'kategori' => KategoriModel::find($id),
             'activeMenu' => 'kategori'
         ]);
+    }
+
+    public function show_ajax(string $id)
+    {
+        $kategori = KategoriModel::find($id);
+        return view('kategori.show_ajax', ['kategori' => $kategori]);
+
+        
     }
 
     public function edit(string $id)

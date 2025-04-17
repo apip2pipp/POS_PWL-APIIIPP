@@ -40,7 +40,7 @@ class LevelController extends Controller
                 $detailUrl = route('level.show', ['id' => $level->level_id]);
                 $editUrl = route('level.edit-ajax', ['id' => $level->level_id]);
                 $deleteAjax = route('level.delete-ajax', ['id' => $level->level_id]);
-
+                $detailUrl = route('level.show_ajax',['id'=> $level->level_id]);
                 return <<<HTML
                 <button onclick="modalAction('{$detailUrl}')" class="btn btn-info btn-sm">Detail</button>
                 <button onclick="modalAction('{$editUrl}')" class="btn btn-warning btn-sm">Edit</button>
@@ -85,6 +85,12 @@ class LevelController extends Controller
             'level' => LevelModel::find($id),
             'activeMenu' => 'level'
         ]);
+    }
+
+    public function show_ajax(string $id)
+    {
+        $level = LevelModel::find($id);
+        return view('level.show_ajax', ['level' => $level]);
     }
 
     public function edit(string $id)
