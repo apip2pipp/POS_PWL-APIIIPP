@@ -8,6 +8,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <div class="modal-body"> 
             <div class="form-group">
                 <label>User</label>
                 <select name="user_id" id="user_id" class="form-control" required>
@@ -36,7 +37,7 @@
                 <input type="datetime-local" name="penjualan_tanggal" id="penjualan_kode" class="form-control" required>
                 <small id="error-penjualan_kode" class="error-text form-text text-danger"></small>
             </div>
-
+        </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
                 <button type="submit" class="btn btn-primary">Simpan</button>
