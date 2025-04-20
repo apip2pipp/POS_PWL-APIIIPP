@@ -1,5 +1,4 @@
 @extends('layouts.template')
-
 @section('content')
     <div class="card card-outline card-primary">
         <div class="card-header">
@@ -16,7 +15,6 @@
             @if (session('error'))
                 <div class="alert alert-danger">{{ session('error') }}</div>
             @endif
-
             <div class="form-group row">
                 <label class="col-1 control-label col-form-label">Filter:</label>
                 <div class="col-3">
@@ -26,6 +24,7 @@
                             <option value="{{ $item->barang_id }}">{{ $item->barang_nama }}</option>
                         @endforeach
                     </select>
+                    <small class="form-text text-muted">Data Barang</small>
                 </div>
             </div>
 
@@ -43,15 +42,12 @@
             </table>
         </div>
     </div>
-
     {{-- Modal untuk aksi AJAX --}}
     <div id="myModal" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
          data-keyboard="false" data-width="75%" aria-hidden="true"></div>
 @endsection
-
 @push('css')
 @endpush
-
 @push('js')
     <script>
         function modalAction(url = '') {
@@ -59,7 +55,6 @@
                 $('#myModal').modal('show');
             });
         }
-
         var dataStok;
         $(document).ready(function () {
             dataStok = $('#table_stok').DataTable({
