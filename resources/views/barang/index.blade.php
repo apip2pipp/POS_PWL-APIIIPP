@@ -30,7 +30,7 @@
                                     <option value="{{ $item->barang_kode }}">{{ $item->barang_kode }}</option>
                                 @endforeach
                             </select>
-                            <small class="form-text text-muted">Data Barang</small>
+                            <small class="form-text text-muted">Data Kode barang</small>
                         </div>
                     </div>
                 </div>
