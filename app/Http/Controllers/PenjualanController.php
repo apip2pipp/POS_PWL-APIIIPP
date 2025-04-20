@@ -32,8 +32,8 @@ class PenjualanController extends Controller
     {
         $sale = PenjualanModel::with(['user'])->select('penjualan_id', 'user_id', 'pembeli', 'penjualan_kode', 'penjualan_tanggal');
 
-        if ($request->kategori_id) {
-            $sale->where('user_id', $request->kategori_id);
+        if ($request->user_id) {
+            $sale->where('user_id', $request->user_id);
         }
 
         return DataTables::of($sale)
