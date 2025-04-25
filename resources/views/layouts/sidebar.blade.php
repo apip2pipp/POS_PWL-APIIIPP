@@ -76,4 +76,25 @@
         </ul>
     </nav>
     <!-- /.sidebar-menu -->
+
+     <!-- Logout Button with Animation -->
+    <div class="sidebar-footer mt-auto" style="position: absolute; bottom: 0; width: 100%; padding: 10px;">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item">
+                <a href="#" class="nav-link text-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                    <p>Logout</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- Form Logout Hidden -->
+<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+    @csrf
+</form>
+
+
+
+
   </div>
