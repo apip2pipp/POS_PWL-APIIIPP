@@ -10,7 +10,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LevelController;
-
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LandingpageController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -35,8 +36,18 @@ use App\Http\Controllers\LevelController;
 
 // Route :: get ('/public/user', [UserController::class, 'index' ]);
 // Route :: get ('/user', [UserController::class, 'index' ]);
-Route::get('/', [WelcomeController::class, 'index']);
 
+
+Route::controller(AuthController::class)->group(function () {
+    Route::get('login', 'login')->name('login');
+    Route::post('login', 'postLogin')->name('login.post');
+    Route::post('logout', 'logout')->middleware('auth')->name('logout');
+});
+
+Route::middleware(['auth'])
+->group(function () {
+    
+Route::get('/', [WelcomeController::class, 'index']);
 
 //user
 Route::group(['prefix'=>'user'], function(){
@@ -156,4 +167,6 @@ Route::group(['prefix' => 'penjualan'], function () {
     Route::get('/{id}/delete_ajax', [PenjualanController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [PenjualanController::class, 'delete_ajax']);
     Route::delete('/{id}', [PenjualanController::class, 'destroy']);
+});
+
 });
