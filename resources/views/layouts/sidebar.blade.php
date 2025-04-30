@@ -8,7 +8,7 @@
             <a href="#" class="d-block">ZakiPip</a>
         </div>
     </div>
-  
+
     <!-- SidebarSearch Form -->
     <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
@@ -20,12 +20,11 @@
             </div>
         </div>
     </div>
-  
+
     <!-- Sidebar Menu -->
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
+            <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
             <li class="nav-item">
                 <a href="{{ url('/') }}" class="nav-link {{ ($activeMenu == 'dashboard')? 'active' : '' }} ">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -74,10 +73,8 @@
                 </a>
             </li>
         </ul>
-    </nav>
-    <!-- /.sidebar-menu -->
 
-     <!-- Logout Button with Animation -->
+    <!-- Logout Button with Animation -->
     <div class="sidebar-footer mt-auto" style="position: absolute; bottom: 0; width: 100%; padding: 10px;">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
@@ -93,8 +90,6 @@
 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
     @csrf
 </form>
-
-
-
-
-  </div>
+    </nav>
+    <!-- /.sidebar-menu -->
+</div>
