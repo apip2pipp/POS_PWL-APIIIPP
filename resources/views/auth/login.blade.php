@@ -28,14 +28,18 @@
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
                 <h2>
-                    <strong>HI WELCOME</strong>
+                    <strong> hi WELCOME </strong>
                 </h2>
+                
             </div>
+            
 
             <div class="card-body">
                 <form id="form-login" action="{{ route('login.post') }}" method="post">
                     @csrf
-
+                    <div class="text-center">
+                    <p>Sign in to start your session</p> 
+                    </div>
                     <div class="input-group mb-3">
                         <input type="text" name="username" id="username" class="form-control" placeholder="Username">
                         <div class="input-group-append">
