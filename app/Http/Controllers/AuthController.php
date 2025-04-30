@@ -13,7 +13,6 @@ class AuthController extends Controller
         if (!Auth::check()) {
             return view('auth.login');
         }
-
         return redirect('/');
     }
 
@@ -22,15 +21,12 @@ class AuthController extends Controller
         if (!$req->ajax() && !$req->wantsJson()) {
             return redirect(route('login'));
         }
-
         $credentials = $req->only('username', 'password');
-
         if (!Auth::attempt($credentials)) {
             return response()->json([
                 'message' => 'Login Gagal!'
             ], Response::HTTP_UNAUTHORIZED);
         }
-
         return response()->json([
             'message' => 'Login Berhasil',
             'redirect' => url('/')
@@ -40,12 +36,8 @@ class AuthController extends Controller
     public function logout(Request $req)
     {
         Auth::logout();
-
         $req->session()->invalidate();
         $req->session()->regenerateToken();
-
         return redirect('login');
     }
-
-   
 }
