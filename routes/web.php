@@ -4,53 +4,29 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\PenjualanController;
-use App\Http\Controllers\PenjualanDetailController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\LandingpageController;
+use App\Http\Controllers\PenjualanDetailController;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/level',[LevelController::class,'index']);
-// Route::get('/kategori',[KategoriController::class,'index']);
-// Route::get('/user',[UserController::class,'index']);
-
-
-// //practicum 2.6 jobsheet 4
-// Route::get('/user/tambah',[UserController::class,'tambah'])->name('/user/tambah');
-// Route::get('/user/ubah/{id}',[UserController::class,'ubah'])->name('/user/ubah');
-// Route::get('/user/hapus/{id}',[UserController::class,'hapus'])->name('/user/hapus');
-// Route::get('/user',[UserController::class,'index'])->name('/user');
-// Route::post('/user/tambah_simpan',[UserController::class,'tambah_simpan'])->name('/user/tambah_simpan');
-// Route::put('/user/ubah_simpan/{id}',[UserController::class,'ubah_simpan'])->name('/user/ubah_simpan');
-
-
-// //jobsheet 5
-// Route::get('/',[WelcomeController::class,'index']);
-
-// Route :: get ('/public/user', [UserController::class, 'index' ]);
-// Route :: get ('/user', [UserController::class, 'index' ]);
-
+Route::pattern('id', '[0-9]+');
 
 Route::controller(AuthController::class)->group(function () {
     Route::get('login', 'login')->name('login');
     Route::post('login', 'postLogin')->name('login.post');
     Route::post('logout', 'logout')->middleware('auth')->name('logout');
+    Route::get('signup', 'showSignup')->name('signup');
+    Route::post('signup', 'postSignup')->name('signup.post');
 });
 
-Route::middleware(['auth'])
-->group(function () {
-    
+Route::middleware(['auth'])->group(function () {    
 Route::get('/', [WelcomeController::class, 'index']);
-
+Route::middleware(['authorize:ADM'])->group(function(){
 //user
-Route::group(['prefix'=>'user'], function(){
+Route::group(['prefix'=>'user'] , function(){
     Route::get('/', [UserController::class, 'index']);
     Route::post('/list', [UserController::class, 'list']);
     Route::get('/create', [UserController::class, 'create']);
@@ -67,9 +43,11 @@ Route::group(['prefix'=>'user'], function(){
     Route::delete('/{id}', [UserController::class, 'destroy']); 
     Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax']);
 });
+});
 
 // Level
 Route::prefix('level')
+->middleware(['authorize:ADM'])
 ->controller(LevelController::class)
 ->group(function () {
 Route::get('/', 'index')->name('level.index');
@@ -91,6 +69,7 @@ Route::get('/{id}/show_ajax', 'show_ajax')->name('level.show_ajax');
 
 // Kategori
 Route::prefix( 'kategori')
+->middleware(['authorize:ADM,MNG,STF'])
 ->controller(KategoriController::class)
 ->group(function () {
 Route::get('/', 'index')->name('kategori.index');
@@ -112,6 +91,7 @@ Route::get('/{id}/show_ajax', 'show_ajax')->name('kategori.show_ajax');
 
 // Barang
 Route::prefix('barang')
+->middleware(['authorize:ADM,MNG,STF'])
 ->controller(BarangController::class)
 ->group(function () {
 Route::get('/', 'index')->name('barang.index');
@@ -132,6 +112,7 @@ Route::get('/{id}/show_ajax', 'show_ajax')->name('barang.show_ajax');
 });
 
 //Stok barang
+Route::middleware(['authorize:ADM,STF,MNG'])->group(function(){
 Route::group(['prefix' => 'stok'], function () {
     Route::get('/', [StokController::class, 'index']);
     Route::post('/list', [StokController::class, 'list']);
@@ -149,8 +130,10 @@ Route::group(['prefix' => 'stok'], function () {
     Route::delete('/{id}/delete_ajax', [StokController::class, 'delete_ajax']);
     Route::delete('/{id}', [StokController::class, 'destroy']);
 });
+});
 
 //penjualan
+Route::middleware(['authorize:ADM,STF'])->group(function(){
 Route::group(['prefix' => 'penjualan'], function () {
     Route::get('/', [PenjualanController::class, 'index']);
     Route::post('/list', [PenjualanController::class, 'list']);
@@ -168,5 +151,26 @@ Route::group(['prefix' => 'penjualan'], function () {
     Route::delete('/{id}/delete_ajax', [PenjualanController::class, 'delete_ajax']);
     Route::delete('/{id}', [PenjualanController::class, 'destroy']);
 });
+});
+
+//penjualan detail
+Route::group(['prefix' => 'penjualandetail'], function () {
+    Route::get('/', [PenjualanDetailController::class, 'index']);
+    Route::post('/list', [PenjualanDetailController::class, 'list']);
+    Route::get('/create', [PenjualanDetailController::class, 'create']);
+    Route::post('/', [PenjualanDetailController::class, 'store']);
+    Route::get('/create_ajax', [PenjualanDetailController::class, 'create_ajax']);
+    Route::post('/ajax', [PenjualanDetailController::class, 'store_ajax']);
+    Route::get('/{id}/show_ajax', [PenjualanDetailController::class, 'show_ajax']);
+    Route::get('/{id}', [PenjualanDetailController::class, 'show']);
+    Route::get('/{id}/edit', [PenjualanDetailController::class, 'edit']);
+    Route::put('/{id}', [PenjualanDetailController::class, 'update']);
+    Route::get('/{id}/edit_ajax', [PenjualanDetailController::class, 'edit_ajax']);
+    Route::put('/{id}/update_ajax', [PenjualanDetailController::class, 'update_ajax']);
+    Route::get('/{id}/delete_ajax', [PenjualanDetailController::class, 'confirm_ajax']);
+    Route::delete('/{id}/delete_ajax', [PenjualanDetailController::class, 'delete_ajax']);
+    Route::delete('/{id}', [PenjualanController::class, 'destroy']);
+});
+
 
 });
