@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PenjualanDetailModel;
+use App\Models\PenjualanModel;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 
 class PenjualanDetailController extends Controller
 {
@@ -11,7 +16,20 @@ class PenjualanDetailController extends Controller
      */
     public function index()
     {
-        //
+        $breadcrumb = (object) [
+            'title' => 'Daftar Penjualan Detail',
+            'list' => ['Home', 'Penjualan Detail']
+        ];
+
+        $page = (object) [
+            'title' => 'Daftar penjualan detail yang terdaftar dalam sistem'
+        ];
+
+        $activeMenu = 'penjualandetail';
+
+        $penjualandetail = PenjualanDetailModel::all();
+        $user = UserModel::all();
+        return view('penjualandetail.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'penjualandetail' => $penjualandetail, 'user' => $user]);
     }
 
     /**
@@ -19,7 +37,19 @@ class PenjualanDetailController extends Controller
      */
     public function create()
     {
-        //
+        $breadcrumb = (object) [
+            'title' => 'Tambah Penjualan Detail',
+            'list' => ['Home', 'Penjualan', 'Tambah']
+        ];
+
+        $page = (object) [
+            'title' => 'Tambah data penjualan baru'
+        ];
+
+        $user = UserModel::all();
+        $activeMenu = 'penjualandetail';
+
+        return view('penjualandetail.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
     }
 
     /**
@@ -27,7 +57,17 @@ class PenjualanDetailController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'detail_id' => 'required|integer',
+            'penjualan_id' => 'required|string',
+            'penjualan_kode' => 'required|string',
+            'penjualan_tanggal' => 'required|date'  // Menggunakan penjualan_tanggal, bukan stok_tanggal
+        ]);
+        
+
+        PenjualanModel::create($request->all());
+
+        return redirect('/penjualan')->with('success', 'Data penjualan berhasil disimpan');
     }
 
     /**
