@@ -76,7 +76,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ url('/penjualandetail') }}" class="nav-link {{ ($activeMenu == 'penjualan')? 'active' : '' }} ">
+                <a href="{{ url('/penjualandetail') }}" class="nav-link {{ ($activeMenu == 'penjualandetail')? 'active' : '' }} ">
                     <i class="nav-icon fas fa-chalkboard"></i>
                     <p>Detail Penjualan</p>
                 </a>
