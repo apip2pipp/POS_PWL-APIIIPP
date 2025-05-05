@@ -110,8 +110,10 @@ Route::get('/{id}/delete-ajax', 'confirmDeleteAjax')->name('barang.confirm-delet
 Route::delete('/{id}/delete-ajax', 'deleteAjax')->name('barang.delete-ajax');
 Route::get('/{id}/show_ajax', 'show_ajax')->name('barang.show_ajax');
 
-Route::get('/import', 'showImport')->name('barang.import');
-Route::post('/import', 'importData')->name('barang.importData.post');
+Route::get('/import/excel', 'showImport')->name('barang.import');
+Route::post('/import/excel', 'importData')->name('barang.import.excel');
+
+Route::get('/export/excel', 'exportExcel')->name('barang.export.excel');
 });
 
 //Stok barang

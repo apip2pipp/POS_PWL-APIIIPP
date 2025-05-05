@@ -6,13 +6,12 @@
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
                 <button onclick="modalAction('{{ route('barang.import') }}')" class="btn btn-sm btn-info mt-1">Import Barang</button>
-                {{-- <a href="{{ route('barang.export.excel') }}" class="btn btn-sm btn-primary mt-1">
+                
+                <a href="{{ route('barang.export.excel') }}" class="btn btn-sm btn-primary mt-1">
                     <i class="fa fa-file-excel"></i> Export Barang Excel
                 </a>
 
-                <a href="{{ route('barang.export.pdf') }}" class="btn btn-warning">
-                    <i class="fa fa-fa-file-pdf"></i> Export Barang PDF
-                </a> --}}
+                
                 <button onclick="modalAction('{{ route('barang.create-ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
             </div>
         </div>

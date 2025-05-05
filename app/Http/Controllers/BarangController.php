@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BarangModel;
 use App\Models\KategoriModel;
-use App\Models\SupplierModel;
+
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -33,11 +33,17 @@ class BarangController extends Controller
 
     public function list(Request $req) 
     {
-        $barang = BarangModel::with(['kategori'], 'supplier')->get();
+        $barang = BarangModel::with(['kategori'])->get();
 
         if ($req->barang_id) {
             $barang->where('barang_id', $req->barang_id);
         }
+
+        
+    $kategori_id = $req->input('filter_kategori'); if(!empty($kategori_id)){
+    $barang->where('kategori_id', $kategori_id);
+    }
+    
 
         return DataTables::of($barang)
             ->addIndexColumn()
@@ -66,6 +72,7 @@ class BarangController extends Controller
             'page' => (object) [
                 'title' => 'Tambah barang baru'
             ],
+           
             'kategori' => KategoriModel::all(),
             'barang' => BarangModel::all(),
             'activeMenu' => 'barang'
@@ -83,16 +90,16 @@ class BarangController extends Controller
     public function store(Request $req)
     {
         $req->validate([
-            'supplier_id' => 'required|integer|min:3',
+
             'kategori_id' => 'required|integer',
-            'barang_kode' => 'required|string|max:100|unique:m_barang,supplier_kode',
+            'barang_kode' => 'required|string|max:100|unique:m_barang',
             'barang_nama' => 'required|string|min:10',
             'harga_beli' => 'required|integer',
             'harga_jual' => 'required|integer'
         ]);
 
         BarangModel::create([
-            'supplier_id' => $req->supplier_id,
+         
             'barang_kode' => $req->barang_kode,
             'barang_nama' => $req->barang_nama,
             'harga_beli' => $req->harga_beli,
@@ -110,7 +117,7 @@ class BarangController extends Controller
         }
         
         $validator = Validator::make($req->all(), [
-            'supplier_id' => 'required|integer',
+            
             'kategori_id' => 'required|integer',
             'barang_kode' => 'required|string|max:100|unique:m_barang,barang_kode',
             'barang_nama' => 'required|string|min:10',
@@ -128,7 +135,7 @@ class BarangController extends Controller
         BarangModel::create($req->all());
 
         return response()->json([
-            'message' => 'Data supplier berhasil disimpan'
+            'message' => 'Data berhasil disimpan'
         ], Response::HTTP_OK);
     }
 
@@ -169,14 +176,13 @@ class BarangController extends Controller
         return view('barang.edit-ajax', [
             'barang' => BarangModel::find($id),
             'kategori' => KategoriModel::all(),
-           
+            
         ]);
     }
 
     public function update(Request $req, string $id)
     {
         $req->validate([
-            'supplier_id' => 'required|integer',
             'kategori_id' => 'required|integer',
             'barang_kode' => 'required|string|max:100|unique:m_barang,barang_kode',
             'barang_nama' => 'required|string|min:10',
@@ -184,10 +190,6 @@ class BarangController extends Controller
             'harga_jual' => 'required|integer'
         ]);
 
-        BarangModel::find($id)->update([
-            'supplier_kode' => $req->supplier_kode,
-            'supplier_nama' => $req->supplier_nama
-        ]);
 
         return redirect('/barang')
             ->with('success', 'Data berhasil diubah');
@@ -200,7 +202,7 @@ class BarangController extends Controller
         }
 
         $validator = Validator::make($req->all(), [
-            'supplier_id' => 'required|integer',
+       
             'kategori_id' => 'required|integer',
             'barang_kode' => 'required|string|max:100|unique:m_barang,barang_kode',
             'barang_nama' => 'required|string|min:10',
@@ -215,19 +217,12 @@ class BarangController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
 
-        $supplier = BarangModel::find($id);
 
-        if (!$supplier) {
-            return response()->json([
-                'message' => 'Data tidak ditemukan'
-            ], Response::HTTP_NOT_FOUND);
-        }
 
         if (!$req->filled('password')) {
             $req->request->remove('password');
         }
 
-        $supplier->update($req->all());
         return response()->json([
             'message' => 'Data berhasil diupdate'
         ], Response::HTTP_OK);
@@ -281,7 +276,7 @@ class BarangController extends Controller
 
     public function showImport()
     {
-        return view('barang.import');
+        return view('barang.import-excel');
     }
 
     public function importData(Request $req)
@@ -305,7 +300,7 @@ class BarangController extends Controller
 
         $file = $req->file('file_barang');
 
-        $reader = IOFactory::createReader('Xlsx');
+        $reader = IOFactory::createReader('xlsx');
         $reader->setReadDataOnly(true);
         $spreadsheet = $reader->load($file->getRealPath());
         $sheet = $spreadsheet->getActiveSheet();
@@ -345,6 +340,58 @@ class BarangController extends Controller
         ], Response::HTTP_OK);
     }
 
-    
-    
+
+    public function exportExcel()
+    {
+        $barang = BarangModel::select('kategori_id', 'barang_kode', 'barang_nama', 'harga_beli', 'harga_jual')
+            ->orderBy('kategori_id')
+            ->with('kategori')
+            ->get();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setCellValue('A1', 'No')
+            ->setCellValue('B1', 'Kode Barang')
+            ->setCellValue('C1', 'Nama Barang')
+            ->setCellValue('D1', 'Harga Beli')
+            ->setCellValue('E1', 'Harga Jual')
+            ->setCellValue('F1', 'Kategori');
+        
+        $sheet->getStyle('A1:F1')->getFont()->setBold(true);
+
+        $no = 1;
+        $row = 2;
+
+        foreach ($barang as $key => $value) {
+            $sheet->setCellValue('A' . $row, $no++)
+                ->setCellValue('B' . $row, $value->barang_kode)
+                ->setCellValue('C' . $row, $value->barang_nama)
+                ->setCellValue('D' . $row, $value->harga_beli)
+                ->setCellValue('E' . $row, $value->harga_jual)
+                ->setCellValue('F' . $row, $value->kategori->kategori_nama);
+            $row++;
+        }
+        
+        foreach (range('A', 'F') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true);
+        }
+
+        $sheet->setTitle('Data Barang');
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $filename = 'Data Barang ' . date('Y-m-d H-i-s') . '.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        header('Cache-Control: max-age=1');
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+        header('Cache-Control: cache, must-revalidate');
+        header('Pragma: public');
+
+        $writer->save('php://output');
+        exit;
+    }
+
 }
