@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\LevelModel;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
@@ -301,5 +303,41 @@ public function delete_ajax(Request $request, $id)
 
     return redirect('/');
 }
+
+public function showUserProfile()
+    {
+        return view('user.profile', [
+            'breadcrumb' => (object) [
+                'title' => 'Profil',
+                'list' => ['Home', 'Profile']
+            ],
+            'page' => (object) [
+                'title' => 'Profile'
+            ],
+            'user' => auth()->user(),
+            'activeMenu' => 'profile'
+        ]);
+    }
+
+    public function updateUserPhotoProfile(Request $req)
+    {
+        if (!$req->hasFile('photo') && !$req->file('photo')->isValid()) {
+            return response()->json([
+                "message" => "Image file is invalid"
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $img = $req->file('photo');
+        $path = $img->store('public/img');
+        $filename = basename($path);
+
+        $user = Auth::user();
+        $user->photo_profile = $filename;
+        $user->save();
+
+        return response()->json([
+            "message" => "Successfully update user photo profile",
+        ], Response::HTTP_OK);
+    }
 
 }

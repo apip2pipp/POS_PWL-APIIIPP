@@ -274,12 +274,12 @@ class BarangController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function showImport()
+    public function showImportModal()
     {
         return view('barang.import-excel');
     }
 
-    public function importData(Request $req)
+    public function importExcel(Request $req)
     {
         if (!$req->ajax() && !$req->wantsJson()) {
             return redirect('/');
@@ -321,9 +321,8 @@ class BarangController extends Controller
                     'kategori_id' => $val['A'],
                     'barang_kode' => $val['B'],
                     'barang_nama' => $val['C'],
-                    'supplier_id' => $val['D'],
-                    'harga_beli' => $val['E'],
-                    'harga_jual' => $val['F'],
+                    'harga_beli' => $val['D'],
+                    'harga_jual' => $val['E'],
                     'created_at' => now(),
                     'updated_at' => now()
                 ];
@@ -339,6 +338,7 @@ class BarangController extends Controller
             'message' => 'Data berhasil diimport'
         ], Response::HTTP_OK);
     }
+
 
 
     public function exportExcel()
@@ -392,6 +392,23 @@ class BarangController extends Controller
 
         $writer->save('php://output');
         exit;
+    }
+
+    public function exportPdf()
+    {
+        $barang = BarangModel::select('kategori_id', 'barang_kode', 'barang_nama', 'harga_beli', 'harga_jual')
+            ->orderBy('kategori_id')
+            ->with('kategori')
+            ->get();
+
+        $pdf = Pdf::loadView('barang.export_pdf', [ 'barang' => $barang ])
+                ->setPaper('A4', 'landscape')
+                ->setOption('isRemoteEnabled', true)
+                ->setOption('isHtml5ParserEnabled', true);
+        
+        $pdf->render();
+
+        return $pdf->stream('Data Barang ' . date('Y-m-d H-i-s') . '.pdf');
     }
 
 }
