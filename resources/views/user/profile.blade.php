@@ -3,30 +3,28 @@
 @section('content')
 <div class="container mx-auto px-4 py-6">
     <div class="bg-white shadow rounded-lg p-6">
-        <div class="flex flex-col md:flex-row items-center md:items-start justify-center">
+        <div class="flex flex-col md:flex-row items-center md:items-start">
             <div class="w-32 h-32 mb-4 md:mb-0 md:mr-6">
                 <img class="w-full h-full object-cover rounded-full border"
                     src="{{ asset((auth()->user()->photo_profile == null) ? 'storage/unknown-profile-pict.jpg' : 'storage/img/' . $user->photo_profile) }}"
                     alt="Profile Picture">
             </div>
 
-            <div class="flex-1 text-center">
-                <h2 class="text-2xl font-bold text-gray-800">
+            <div class="flex-1">
+                <h2 class="text-2xl font-bold text-gray-800 flex items-center">
                     {{ $user->nama }}
                     <span class="ml-2 text-gray-600">@ {{ $user->username }}</span>
                 </h2>
                 <div class="mt-4">
                     <div>
-                        <button id="btn-edit-photo" type="button" class="btn btn-primary">
-                            Edit foto profil
-                        </button>
+                        <button id="btn-edit-photo" type="button" class="btn btn-primary">Edit foto profil</button>
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
 </div>
-
 
 
 <script>
