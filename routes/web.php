@@ -22,6 +22,16 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('signup', 'postSignup')->name('signup.post');
 });
 
+Route::middleware(['authorize:ADM,MNG,STF,KSR'])
+ ->controller(UserController::class)
+ ->prefix('profile')
+ ->group(function(){
+    
+    Route::get('/', 'showUserProfile')->name('user.profile.show');
+    Route::patch('/update-photo-profile','updateUserphotoProfile')->name('user.profile.update-photo-profile');
+ });
+
+
 Route::middleware(['auth'])->group(function () {    
 Route::get('/', [WelcomeController::class, 'index']);
 Route::middleware(['authorize:ADM'])->group(function(){
@@ -110,10 +120,11 @@ Route::get('/{id}/delete-ajax', 'confirmDeleteAjax')->name('barang.confirm-delet
 Route::delete('/{id}/delete-ajax', 'deleteAjax')->name('barang.delete-ajax');
 Route::get('/{id}/show_ajax', 'show_ajax')->name('barang.show_ajax');
 
-Route::get('/import/excel', 'showImport')->name('barang.import');
-Route::post('/import/excel', 'importData')->name('barang.import.excel');
+Route::get('/import/excel', 'showImportModal')->name('barang.import.excel');
+        Route::post('/import/excel', 'importExcel')->name('barang.import.excel.post');
 
-Route::get('/export/excel', 'exportExcel')->name('barang.export.excel');
+        Route::get('/export/excel', 'exportExcel')->name('barang.export.excel');
+        Route::get('/export/pdf', 'exportPdf')->name('barang.export.pdf');
 });
 
 //Stok barang
