@@ -22,7 +22,7 @@
 
                 <div class="form-group">
                     <label>Pilih File</label>
-                    <input type="file" name="file_barng" id="file_barang" class="form-control" required>
+                    <input type="file" name="file_barang" id="file_barang" class="form-control" required>
                     <small id="error-file-barang" class="error-text form-text text-danger"></small>
                 </div>
             </div>

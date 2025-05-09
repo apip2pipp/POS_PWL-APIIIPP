@@ -274,7 +274,7 @@ class BarangController extends Controller
         return view('barang.import-excel');
     }
 
-    public function importExcel(Request $req)
+        public function importExcel(Request $req)
     {
         if (!$req->ajax() && !$req->wantsJson()) {
             return redirect('/');
@@ -295,7 +295,7 @@ class BarangController extends Controller
 
         $file = $req->file('file_barang');
 
-        $reader = IOFactory::createReader('xlsx');
+        $reader = IOFactory::createReader('Xlsx');
         $reader->setReadDataOnly(true);
         $spreadsheet = $reader->load($file->getRealPath());
         $sheet = $spreadsheet->getActiveSheet();
@@ -319,7 +319,7 @@ class BarangController extends Controller
                     'harga_beli' => $val['D'],
                     'harga_jual' => $val['E'],
                     'created_at' => now(),
-                    'updated_at' => now()
+                    
                 ];
             }
         }
@@ -333,6 +333,7 @@ class BarangController extends Controller
             'message' => 'Data berhasil diimport'
         ], Response::HTTP_OK);
     }
+
 
 
 
