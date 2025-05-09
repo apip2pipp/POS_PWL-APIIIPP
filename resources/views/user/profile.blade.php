@@ -1,31 +1,60 @@
 @extends('layouts.template')
 
 @section('content')
-<div class="container mx-auto px-4 py-6">
-    <div class="bg-white shadow rounded-lg p-6">
-        <div class="flex flex-col md:flex-row items-center md:items-start justify-center">
-            <div class="w-32 h-32 mb-4 md:mb-0 md:mr-6">
-                <img class="w-full h-full object-cover rounded-full border"
-                    src="{{ asset((auth()->user()->photo_profile == null) ? 'storage/unknown-profile-pict.jpg' : 'storage/img/' . $user->photo_profile) }}"
-                    alt="Profile Picture">
-            </div>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">{{ $page->title }}</h3>
+    </div>
 
-            <div class="flex-1 text-center">
-                <h2 class="text-2xl font-bold text-gray-800">
-                    {{ $user->nama }}
-                    <span class="ml-2 text-gray-600">@ {{ $user->username }}</span>
-                </h2>
-                <div class="mt-4">
-                    <div>
-                        <button id="btn-edit-photo" type="button" class="btn btn-primary">
-                            Edit foto profil
+    <div class="card-body">
+        <div class="row">
+            <!-- Profile Picture Section -->
+            <div class="col-md-4 text-center">
+                <div class="profile-picture-container mb-3">
+                    <img id="profile-image" src="{{ asset((auth()->user()->photo_profile == null) ? 'storage/unknown-profile-pict.jpg' : 'storage/img/' . $user->photo_profile) }}"
+                        class="img-circle elevation-2" alt="User Image" style="width: 150px; height: 150px; object-fit: cover;">
+
+                    <div class="mt-3">
+                        <!-- Edit Button for Profile Picture -->
+                        <button id="btn-edit-photo" type="button" class="btn btn-primary btn-sm">
+                            <i class="fas fa-camera mr-1"></i> Edit foto profil
                         </button>
                     </div>
                 </div>
+
+                <!-- Form for Profile Picture Upload -->
+                <form id="profile-picture-form" style="display: none;">
+                    @csrf
+                    <input type="file" name="image" id="image" accept="image/*">
+                </form>
+            </div>
+
+            <!-- User Info Section -->
+            <div class="col-md-8">
+                <h4>Informasi Akun</h4>
+                <table class="table table-bordered">
+                    <tr>
+                        <th style="width: 30%">Username</th>
+                        <td>{{ $user->username }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nama</th>
+                        <td>{{ $user->nama }}</td>
+                    </tr>
+                    <tr>
+                        <th>Role</th>
+                        <td>{{ $user->getRoleName() }}</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
 </div>
+
+
+
+
+
 
 
 
