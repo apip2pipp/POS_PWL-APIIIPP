@@ -2,12 +2,12 @@
     <!-- Sidebar user (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-            <img src="{{ asset('adminlte/dist/img/zaki22.jpg') }}" class="img-circle elevation-2" alt="User Image">
+          <img src="{{ asset((auth()->user()->photo_profile == null) ? 'storage/' : 'storage/img/' .auth()->user()->photo_profile) }}" class="img-circle elevation-2" alt="User Image" style="width: 32px; height: 32px; object-fit: cover;"">
         </div>
         <div class="info">
-            <a href="#" class="d-block">ZakiPip</a>
+          <a href="{{ route('user.profile.show') }}" class="d-block">{{ auth()->user()->nama }}</a>
         </div>
-    </div>
+      </div>
 
     <!-- SidebarSearch Form -->
     <div class="form-inline">
