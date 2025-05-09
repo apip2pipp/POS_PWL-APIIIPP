@@ -5,13 +5,14 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
-                <button onclick="modalAction('{{ route('barang.import') }}')" class="btn btn-sm btn-info mt-1">Import Barang</button>
-                
+                <button onclick="modalAction('{{ route('barang.import.excel') }}')" class="btn btn-sm btn btn-info mt-1">Import Barang</button>
                 <a href="{{ route('barang.export.excel') }}" class="btn btn-sm btn-primary mt-1">
                     <i class="fa fa-file-excel"></i> Export Barang Excel
                 </a>
 
-                
+                <a href="{{ route('barang.export.pdf') }}" class="btn btn-sm btn-warning mt-1">
+                    <i class="fa fa-fa-file-pdf"></i> Export Barang PDF
+                </a>
                 <button onclick="modalAction('{{ route('barang.create-ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
             </div>
         </div>
@@ -30,13 +31,13 @@
                     <div class="form-group row">
                         <label class="col-1 control-label col-form-label">Filter:</label>
                         <div class="col-3">
-                            <select name="kategori_nama" id="kategori_id" class="form-control">
+                            <select name="barang_kode" id="barang_id" class="form-control">
                                 <option value="">- Semua -</option>
-                                @foreach ($kategori as $item)
-                                    <option value="{{ $item->kategori_id }}">{{ $item->kategori_nama }}</option>
+                                @foreach ($barang as $item)
+                                    <option value="{{ $item->barang_id }}">{{ $item->barang_kode }}</option>
                                 @endforeach
                             </select>
-                            <small class="form-text text-muted">Kategori Barang</small>
+                            <small class="form-text text-muted">Barang Kode</small>
                         </div>
                     </div>
                 </div>
@@ -150,9 +151,7 @@
             }
         });
 
-        $('.filter_kategori').on('change', function() {
-            dataBarang.ajax.draw();
-        });
+       
     });
 </script>
 @endpush
