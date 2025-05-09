@@ -24,6 +24,7 @@ class BarangController extends Controller
                 'list' => ['Home', 'Barang']
             ],
             'kategori' => KategoriModel::all(),
+            'barang' => BarangModel::all(),
             'page' => (object) [
                 'title' => 'Daftar barang yang terdaftar dalam sistem'
             ],
@@ -33,17 +34,11 @@ class BarangController extends Controller
 
     public function list(Request $req) 
     {
-        $barang = BarangModel::with(['kategori'])->get();
+        $barang = BarangModel::with(['kategori'],'barang_id','barang_kode','barang_nama','harga_jual','harga_beli');
 
         if ($req->barang_id) {
             $barang->where('barang_id', $req->barang_id);
         }
-
-        
-    $kategori_id = $req->input('filter_kategori'); if(!empty($kategori_id)){
-    $barang->where('kategori_id', $kategori_id);
-    }
-    
 
         return DataTables::of($barang)
             ->addIndexColumn()
