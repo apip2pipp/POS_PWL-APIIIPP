@@ -52,6 +52,15 @@ Route::group(['prefix'=>'user'] , function(){
     Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']);
     Route::delete('/{id}', [UserController::class, 'destroy']); 
     Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax']);
+
+ Route::get('/import/excel', [UserController::class, 'showImportModal'])->name('user.import.excel');
+ Route::post('/import/excel', [UserController::class, 'importExcel'])->name('user.import.excel.post');
+
+    // Route::get('/import/excel', 'showImportModal')->name('user.import.excel');
+    // Route::post('/import/excel', 'importExcel')->name('user.import.excel.post');
+
+    // Route::get('/export/excel', 'exportExcel')->name('user.export.excel');
+    // Route::get('/export/pdf', 'exportPdf')->name('user.export.pdf');
 });
 });
 
@@ -121,10 +130,10 @@ Route::delete('/{id}/delete-ajax', 'deleteAjax')->name('barang.delete-ajax');
 Route::get('/{id}/show_ajax', 'show_ajax')->name('barang.show_ajax');
 
 Route::get('/import/excel', 'showImportModal')->name('barang.import.excel');
-        Route::post('/import/excel', 'importExcel')->name('barang.import.excel.post');
+Route::post('/import/excel', 'importExcel')->name('barang.import.excel.post');
 
-        Route::get('/export/excel', 'exportExcel')->name('barang.export.excel');
-        Route::get('/export/pdf', 'exportPdf')->name('barang.export.pdf');
+Route::get('/export/excel', 'exportExcel')->name('barang.export.excel');
+Route::get('/export/pdf', 'exportPdf')->name('barang.export.pdf');
 });
 
 //Stok barang
