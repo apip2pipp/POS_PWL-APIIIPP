@@ -10,6 +10,9 @@ use App\Models\LevelModel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserController extends Controller
 {
@@ -129,17 +132,17 @@ public function list(Request $request){
         $activeMenu = 'user';
         return view('user.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
     }
-    
+
 
     public function show_ajax(String $id){
         $user = UserModel::find($id);
         $level = LevelModel::select('level_id', 'level_nama')->get();
 
         return view('user.show_ajax', compact('user', 'level'));
-        
+
     }
 
-    
+
     public function edit(string $id)
     {
         $user = UserModel::find($id);
@@ -205,10 +208,10 @@ public function list(Request $request){
                 'nama'     => 'required|string|max:100',
                 'password' => 'required|min:4'
             ];
-    
+
             // use Illuminate\Support\Facades\Validator;
             $validator = Validator::make($request->all(), $rules);
-    
+
             if($validator->fails()){
                 return response()->json([
                     'status'    => false, // response status, false: error/gagal, true: berhasil
@@ -216,7 +219,7 @@ public function list(Request $request){
                     'msgField'  => $validator->errors(), // pesan error validasi
                 ]);
             }
-    
+
             UserModel::create($request->all());
             return response()->json([
                 'status'    => true,
@@ -225,9 +228,9 @@ public function list(Request $request){
         }
         redirect('/');
     }
-    
+
     // Ambil data user dalam bentuk json untuk datatables
-    
+
 //menampilkan halaman from edit user ajax
 public function edit_ajax(string $id){
     $user= UserModel::find($id);
@@ -235,45 +238,45 @@ public function edit_ajax(string $id){
     return view('user.edit_ajax',['user'=>$user,'level' =>$level]);
 }
 
-public function update_ajax(Request $request, $id){ 
-    // cek apakah request dari ajax 
-    if ($request->ajax() || $request->wantsJson()) { 
-        $rules = [ 
-            'level_id' => 'required|integer', 
-            'username' => 'required|max:20|unique:m_user,username,'.$id.',user_id', 
-            'nama'     => 'required|max:100', 
-            'password' => 'nullable|min:6|max:20' 
-        ]; 
-// use Illuminate\Support\Facades\Validator; 
-        $validator = Validator::make($request->all(), $rules); 
- 
-        if ($validator->fails()) { 
-            return response()->json([ 
-                'status'   => false,    // respon json, true: berhasil, false: gagal 
-                'message'  => 'Validasi gagal.', 
-                'msgField' => $validator->errors()  // menunjukkan field mana yang error 
-            ]); 
-        } 
- 
-        $check = UserModel::find($id); 
-        if ($check) { 
-            if(!$request->filled('password') ){ // jika password tidak diisi, maka hapus dari request 
-                $request->request->remove('password'); 
-            } 
-             
-            $check->update($request->all()); 
-            return response()->json([ 
-                'status'  => true, 
-                'message' => 'Data berhasil diupdate' 
-            ]); 
-        } else{ 
-            return response()->json([ 
-                'status'  => false, 
-                'message' => 'Data tidak ditemukan' 
-            ]); 
-        } 
-    } 
-    return redirect('/'); 
+public function update_ajax(Request $request, $id){
+    // cek apakah request dari ajax
+    if ($request->ajax() || $request->wantsJson()) {
+        $rules = [
+            'level_id' => 'required|integer',
+            'username' => 'required|max:20|unique:m_user,username,'.$id.',user_id',
+            'nama'     => 'required|max:100',
+            'password' => 'nullable|min:6|max:20'
+        ];
+// use Illuminate\Support\Facades\Validator;
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status'   => false,    // respon json, true: berhasil, false: gagal
+                'message'  => 'Validasi gagal.',
+                'msgField' => $validator->errors()  // menunjukkan field mana yang error
+            ]);
+        }
+
+        $check = UserModel::find($id);
+        if ($check) {
+            if(!$request->filled('password') ){ // jika password tidak diisi, maka hapus dari request
+                $request->request->remove('password');
+            }
+
+            $check->update($request->all());
+            return response()->json([
+                'status'  => true,
+                'message' => 'Data berhasil diupdate'
+            ]);
+        } else{
+            return response()->json([
+                'status'  => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+        }
+    }
+    return redirect('/');
 }
 
 public function confirm_ajax(string $id){
@@ -340,4 +343,133 @@ public function showUserProfile()
         ], Response::HTTP_OK);
     }
 
+     public function showImportModal()
+    {
+        return view('user.import-excel');
+    }
+
+    public function importExcel(Request $req)
+    {
+        if (!$req->ajax() && !$req->wantsJson()) {
+            return redirect('/');
+        }
+
+        $rules = [
+            'file_user' => ['required', 'mimes:xlsx', 'max:1024']
+        ];
+
+        $validator = Validator::make($req->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validasi gagal',
+                'msgField' => $validator->errors()
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $file = $req->file('file_user');
+
+        $reader = IOFactory::createReader('Xlsx');
+        $reader->setReadDataOnly(true);
+        $spreadsheet = $reader->load($file->getRealPath());
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $data = $sheet->toArray(null, false, true, true);
+
+        $insert = [];
+        if (count($data) <= 1) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Tidak ada data yang diimport'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        foreach ($data as $row => $val) {
+            if ($row > 1) {
+                $insert[] = [
+                    'level_id' => $val['A'],
+                    'username' => $val['B'],
+                    'nama' => $val['C'],
+                    'password' => bcrypt($val['D']),
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
+            }
+        }
+
+        if (count($insert) > 0) {
+            UserModel::insertOrIgnore($insert);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data berhasil diimport'
+        ], Response::HTTP_OK);
+    }
+
+    public function exportExcel()
+    {
+        $user = UserModel::select('level_id', 'username', 'nama')
+            ->orderBy('level_id')
+            ->with('level')
+            ->get();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setCellValue('A1', 'No')
+            ->setCellValue('B1', 'Level Kode')
+            ->setCellValue('C1', 'Username')
+            ->setCellValue('D1', 'Nama');
+
+        $sheet->getStyle('A1:D1')->getFont()->setBold(true);
+
+        $no = 1;
+        $row = 2;
+
+        foreach ($user as $key => $value) {
+            $sheet->setCellValue('A' . $row, $no++)
+                ->setCellValue('B' . $row, $value->level->level_kode)
+                ->setCellValue('C' . $row, $value->username)
+                ->setCellValue('D' . $row, $value->nama);
+            $row++;
+        }
+
+        foreach (range('A', 'D') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true);
+        }
+
+        $sheet->setTitle('Data Pengguna');
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $filename = 'Data Pengguna ' . date('Y-m-d H-i-s') . '.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        header('Cache-Control: max-age=1');
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+        header('Cache-Control: cache, must-revalidate');
+        header('Pragma: public');
+
+        $writer->save('php://output');
+        exit;
+    }
+
+    public function exportPdf()
+    {
+        $user = UserModel::select('level_id', 'username', 'nama')
+            ->orderBy('level_id')
+            ->with('level')
+            ->get();
+
+        $pdf = Pdf::loadView('user.export_pdf', [ 'user' => $user ])
+                ->setPaper('A4', 'landscape')
+                ->setOption('isRemoteEnabled', true)
+                ->setOption('isHtml5ParserEnabled', true);
+
+        $pdf->render();
+
+        return $pdf->stream('Data Pengguna ' . date('Y-m-d H-i-s') . '.pdf');
+    }
 }

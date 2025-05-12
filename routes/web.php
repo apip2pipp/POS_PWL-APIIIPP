@@ -26,13 +26,13 @@ Route::middleware(['authorize:ADM,MNG,STF,KSR'])
  ->controller(UserController::class)
  ->prefix('profile')
  ->group(function(){
-    
+
     Route::get('/', 'showUserProfile')->name('user.profile.show');
     Route::patch('/update-photo-profile','updateUserphotoProfile')->name('user.profile.update-photo-profile');
  });
 
 
-Route::middleware(['auth'])->group(function () {    
+Route::middleware(['auth'])->group(function () {
 Route::get('/', [WelcomeController::class, 'index']);
 Route::middleware(['authorize:ADM'])->group(function(){
 //user
@@ -50,11 +50,13 @@ Route::group(['prefix'=>'user'] , function(){
     Route::put('/{id}/update_ajax', [UserController::class, 'update_ajax']);
     Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']);
-    Route::delete('/{id}', [UserController::class, 'destroy']); 
+    Route::delete('/{id}', [UserController::class, 'destroy']);
     Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax']);
 
  Route::get('/import/excel', [UserController::class, 'showImportModal'])->name('user.import.excel');
  Route::post('/import/excel', [UserController::class, 'importExcel'])->name('user.import.excel.post');
+ Route::get('/export/excel', [UserController::class, 'exportExcel'])->name('user.export.excel');
+ Route::get('/export/pdf', [UserController::class, 'exportPdf'])->name('user.export.pdf');
 
     // Route::get('/import/excel', 'showImportModal')->name('user.import.excel');
     // Route::post('/import/excel', 'importExcel')->name('user.import.excel.post');
