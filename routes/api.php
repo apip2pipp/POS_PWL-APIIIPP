@@ -3,7 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\RegisterController;
-
+use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,3 +20,15 @@ use App\Http\Controllers\Api\RegisterController;
 //     return $request->user();
 // });
 Route::post('/register', RegisterController::class)->name('register');
+Route::post('/login', LoginController::class)->name('login');
+
+
+Route::prefix('user')
+    ->controller(UserController::class)
+    ->group(function () {
+    Route::get('/', 'index');
+    Route::post('/', 'store');
+    Route::get('/{user}', 'show');
+    Route::put('/{user}', 'update');
+    Route::delete('/{user}', 'destroy');
+});
