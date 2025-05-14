@@ -8,7 +8,8 @@ use App\Http\Controllers\Api\LogoutController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\LevelController;
 use App\Http\Controllers\Api\KategoriController;
-use App\Models\KategoriModel;
+use App\Http\Controllers\Api\BarangController;
+use App\Models\BarangModel;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,18 +36,33 @@ Route::put('/level/{level_id}', [LevelController::class, 'update']);
 Route::delete('/level/{level_kode}', [LevelController::class, 'destroy']);
 
 
-Route::prefix('user')
-    ->controller(UserController::class)
-    ->group(function () {
-    Route::get('/', 'index');
-    Route::post('/', 'store');
-    Route::get('/{user}', 'show');
-    Route::put('/{user}', 'update');
-    Route::delete('/{user}', 'destroy');
-});
+Route::get('/user', [UserController::class, 'index']);
+Route::post('/user', [UserController::class, 'store']);
+Route::get('/user/{user}', [UserController::class, 'show']);
+Route::put('/user/{user_id}', [UserController::class, 'update']);
+Route::delete('/user/{user_id}', [UserController::class, 'destroy']);
+
+
+
+// Route::prefix('user')
+//     ->controller(UserController::class)
+//     ->group(function () {
+//     Route::get('/', 'index');
+//     Route::post('/', 'store');
+//     Route::get('/{user}', 'show');
+//     Route::put('/{user}', 'update');
+//     Route::delete('/{user}', 'destroy');
+// });
 
 Route::get('/kategori', [KategoriController::class, 'index']);
 Route::post('/kategori', [KategoriController::class, 'store']);
 Route::get('/kategori/{kategori}', [KategoriController::class, 'show']);
 Route::put('/kategori/{kategori_id}', [KategoriController::class, 'update']);
 Route::delete('/kategori/{kategori_kode}', [KategoriController::class, 'destroy']);
+
+
+Route::get('/barang', [BarangController::class, 'index']);
+Route::post('/barang', [BarangController::class, 'store']);
+Route::get('/barang/{barang}', [BarangController::class, 'show']);
+Route::put('/barang/{barang_id}', [BarangController::class, 'update']);
+Route::delete('/barang/{barang_kode}', [BarangController::class, 'destroy']);

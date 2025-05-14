@@ -37,21 +37,45 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $req, UserModel $user)
+    public function update(Request $request, $user_id)
     {
-        $user->update($req->all());
-        return UserModel::find($user);
+        $user = UserModel::where('user_id', $user_id)->first();
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data not found'
+            ], 404);
+        }
+
+        $user->update($request->all());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data updated successfully',
+            'data' => $user
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(UserModel $user)
+    public function destroy($user_id)
     {
+        $user= UserModel::where('user_id', $user_id)->first();
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data not found'
+            ], 404);
+        }
+
         $user->delete();
 
         return response()->json([
-            "message" => "Data successfully deleted"
+            'success' => true,
+            'message' => 'Data deleted successfully'
         ]);
     }
 }
