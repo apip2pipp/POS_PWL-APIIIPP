@@ -7,6 +7,9 @@ use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\LogoutController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\LevelController;
+use App\Http\Controllers\Api\KategoriController;
+use App\Models\KategoriModel;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -41,3 +44,9 @@ Route::prefix('user')
     Route::put('/{user}', 'update');
     Route::delete('/{user}', 'destroy');
 });
+
+Route::get('/kategori', [KategoriController::class, 'index']);
+Route::post('/kategori', [KategoriController::class, 'store']);
+Route::get('/kategori/{kategori}', [KategoriController::class, 'show']);
+Route::put('/kategori/{kategori_id}', [KategoriController::class, 'update']);
+Route::delete('/kategori/{kategori_kode}', [KategoriController::class, 'destroy']);
