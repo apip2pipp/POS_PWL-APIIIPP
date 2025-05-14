@@ -4,7 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\LogoutController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\LevelController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,6 +23,13 @@ use App\Http\Controllers\Api\UserController;
 // });
 Route::post('/register', RegisterController::class)->name('register');
 Route::post('/login', LoginController::class)->name('login');
+Route::post('/logout', LogoutController::class)->name('logout');
+
+Route::get('/level', [LevelController::class, 'index']);
+Route::post('/level', [LevelController::class, 'store']);
+Route::get('/level/{level}', [LevelController::class, 'show']);
+Route::put('/level/{level_id}', [LevelController::class, 'update']);
+Route::delete('/level/{level_kode}', [LevelController::class, 'destroy']);
 
 
 Route::prefix('user')
