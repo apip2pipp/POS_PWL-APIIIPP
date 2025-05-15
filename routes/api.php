@@ -26,6 +26,8 @@ use App\Models\BarangModel;
 //     return $request->user();
 // });
 Route::post('/register', RegisterController::class)->name('register');
+Route::post('/register1', RegisterController::class)->name('register1');
+
 Route::post('/login', LoginController::class)->name('login');
 Route::post('/logout', LogoutController::class)->name('logout');
 
@@ -66,3 +68,5 @@ Route::post('/barang', [BarangController::class, 'store']);
 Route::get('/barang/{barang}', [BarangController::class, 'show']);
 Route::put('/barang/{barang_id}', [BarangController::class, 'update']);
 Route::delete('/barang/{barang_kode}', [BarangController::class, 'destroy']);
+
+Route::post('/barang1', [BarangController::class,'add_image'])->name('barang1');
