@@ -4,8 +4,8 @@
         <div class="image">
           <img src="{{ asset((auth()->user()->photo_profile == null) ? 'storage/' : 'storage/img/' .auth()->user()->photo_profile) }}" class="img-circle elevation-2" alt="User Image" style="width: 32px; height: 32px; object-fit: cover;"">
         </div>
-        <div class="info">
-          <a href="{{ route('user.profile.show') }}" class="d-block">{{ auth()->user()->nama }}</a>
+        <div class="info style= "max-width: 200px;">
+          <a href="{{ route('user.profile.show') }}" class="d-block" style="white-space: normal; word-break: break-word;">{{ auth()->user()->nama }}</a>
         </div>
       </div>
 
@@ -65,9 +65,9 @@
                     <p>Stok Barang</p>
                 </a>
             </li>
-            
+
             <li class="nav-header">Data Transaksi</li>
-            
+
             <li class="nav-item">
                 <a href="{{ url('/penjualan') }}" class="nav-link {{ ($activeMenu == 'penjualan')? 'active' : '' }} ">
                     <i class="nav-icon fas fa-cash-register"></i>
